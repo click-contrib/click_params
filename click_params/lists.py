@@ -1,12 +1,11 @@
-"""Module that contains parameters types to represent list of items."""
+"""Parameter types to represent list of items."""
 from decimal import Decimal, DecimalException
 from fractions import Fraction
-from typing import List, Tuple, TypeVar
+from typing import List, Tuple
 
 import click
 
-NumClass = TypeVar('NumClass')  # it can be int, float, etc..
-NumList = List[NumClass]
+from .annotations import NumClass, NumList
 
 
 class BaseList(click.ParamType):
@@ -40,6 +39,9 @@ class BaseList(click.ParamType):
                 errors.append(item)
         return errors, numeric_list
 
+    def __repr__(self):
+        return self.name.upper()
+
 
 class StringListParamType(BaseList):
     name = 'string list'
@@ -47,9 +49,6 @@ class StringListParamType(BaseList):
     def convert(self, value, param, ctx):
         value = self._strip_separator(value)
         return value.split(self._separator)
-
-    def __repr__(self):
-        return self.name.upper()
 
 
 class IntListParamType(BaseList):
@@ -63,9 +62,6 @@ class IntListParamType(BaseList):
 
         return int_list
 
-    def __repr__(self):
-        return self.name.upper()
-
 
 class FloatListParamType(BaseList):
     name = 'float list'
@@ -77,9 +73,6 @@ class FloatListParamType(BaseList):
             self.fail(f'These items are not floating point values: {errors}', param, ctx)
 
         return float_list
-
-    def __repr__(self):
-        return self.name.upper()
 
 
 class DecimalListParamType(BaseList):
@@ -93,9 +86,6 @@ class DecimalListParamType(BaseList):
 
         return decimal_list
 
-    def __repr__(self):
-        return self.name.upper()
-
 
 class FractionListParamType(BaseList):
     name = 'fraction list'
@@ -108,9 +98,6 @@ class FractionListParamType(BaseList):
 
         return fraction_list
 
-    def __repr__(self):
-        return self.name.upper()
-
 
 class ComplexListParamType(BaseList):
     name = 'complex list'
@@ -122,6 +109,3 @@ class ComplexListParamType(BaseList):
             self.fail(f'These items are not complex values: {errors}', param, ctx)
 
         return complex_list
-
-    def __repr__(self):
-        return self.name.upper()
