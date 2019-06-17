@@ -49,7 +49,7 @@ class FractionParamType(NumericParamType):
 class FractionRange(RangeParamType):
     name = 'fraction range'
 
-    def __init__(self, minimum: Fraction, maximum: Fraction, clamp: bool = False):
+    def __init__(self, minimum: Fraction = None, maximum: Fraction = None, clamp: bool = False):
         super().__init__(FractionParamType(), minimum, maximum, clamp)
 
 

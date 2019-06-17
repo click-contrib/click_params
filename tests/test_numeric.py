@@ -35,14 +35,14 @@ class TestNumericParamType:
             pytest.fail(f'Unexpected fail with value: {str_value}')
 
 
-@pytest.mark.parametrize(('name', 'param_type'), [
+@pytest.mark.parametrize(('name', 'parameter'), [
     ('decimal', DECIMAL),
     ('fraction', FRACTION),
     ('complex', COMPLEX),
 ])
-def test_param_type_name_and_representation_are_correct_for_simple_types(name, param_type):
-    assert name == param_type.name
-    assert name.upper() == repr(param_type)
+def test_parameter_name_and_representation_are_correct_for_simple_types(name, parameter):
+    assert name == parameter.name
+    assert name.upper() == repr(parameter)
 
 
 @pytest.mark.parametrize(('name', 'representation', 'parameter'), [
@@ -51,7 +51,7 @@ def test_param_type_name_and_representation_are_correct_for_simple_types(name, p
     ('fraction range', f'FractionRange({repr(Fraction(0.1))}, {repr(Fraction(0.8))})',
      FractionRange(Fraction(0.1), Fraction(0.8)))
 ])
-def test_param_type_name_and_representation_are_correct_for_range_types(name, representation, parameter):
+def test_parameter_name_and_representation_are_correct_for_range_types(name, representation, parameter):
     assert name == parameter.name
     assert representation == repr(parameter)
 

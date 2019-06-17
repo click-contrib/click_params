@@ -32,9 +32,14 @@ class TestRangeParamType:
         int_range = IntRange(minimum, maximum, True)
         assert expected_value == int_range.convert(given_input, None, None)
 
-    def test_should_return_correct_value_when_setting_clamp_to_false(self):
-        int_range = IntRange(5, 10)
-        assert 6 == int_range.convert('6', None, None)
+    @pytest.mark.parametrize(('minimum', 'maximum', 'value'), [
+        (5, 10, '6'),
+        (5, 10, '5'),
+        (5, 10, '10')
+    ])
+    def test_should_return_correct_value_when_setting_clamp_to_false(self, minimum, maximum, value):
+        int_range = IntRange(minimum, maximum)
+        assert int(value) == int_range.convert(value, None, None)
 
     @pytest.mark.parametrize(('minimum', 'maximum', 'given_input', 'message'), [
         (5, None, '4', '4 is smaller than the minimum valid value 5.'),
