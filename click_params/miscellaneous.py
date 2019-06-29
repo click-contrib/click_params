@@ -5,6 +5,8 @@ from typing import Callable
 import click
 from validators import mac_address
 
+from .base import ValidatorParamType
+
 
 class JsonParamType(click.ParamType):
     name = 'json'
@@ -32,16 +34,11 @@ class JsonParamType(click.ParamType):
         return self.name.upper()
 
 
-class MacAddressParamType(click.ParamType):
+class MacAddressParamType(ValidatorParamType):
     name = 'mac address'
 
-    def convert(self, value, param, ctx):
-        if not mac_address(value):
-            self.fail(f'{value} is not a valid mac address', param, ctx)
-        return value
-
-    def __repr__(self):
-        return self.name.upper()
+    def __init__(self):
+        super().__init__(callback=mac_address)
 
 
 JSON = JsonParamType()

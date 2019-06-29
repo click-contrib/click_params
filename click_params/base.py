@@ -1,5 +1,5 @@
 """Base classes to implement various parameter types"""
-from typing import Union, Tuple
+from typing import Union, Tuple, Callable
 
 import click
 
@@ -17,6 +17,23 @@ class BaseParamType(click.ParamType):
             return self._type(value)
         except self._errors:
             self.fail(self._error_message.format(value=value), param, ctx)
+
+    def __repr__(self):
+        return self.name.upper()
+
+
+class ValidatorParamType(click.ParamType):
+    """This class is intended to be inherit by classes using validators functions."""
+
+    def __init__(self, callback: Callable, name: str = None):
+        self._callback = callback
+        self._name = name or self.name
+        self._error_message = '{value} is not a valid %s' % self._name
+
+    def convert(self, value, param, ctx):
+        if not self._callback(value):
+            self.fail(self._error_message.format(value=value), param, ctx)
+        return value
 
     def __repr__(self):
         return self.name.upper()

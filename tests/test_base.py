@@ -1,18 +1,23 @@
 import click
 import pytest
 
-from click_params.base import RangeParamType, BaseParamType
+from click_params.base import RangeParamType, BaseParamType, ValidatorParamType
+from validators.utils import validator
 
 
 class IntType(BaseParamType):
     """We use this custom type to test BaseParamType"""
+    name = 'integer'
 
-    def __init__(self, _type=int, str_type='integer', errors=ValueError):
-        super().__init__(_type, str_type, errors)
+    def __init__(self):
+        super().__init__(_type=int, str_type='integer', errors=ValueError)
 
 
 class TestBaseParamType:
     """Tests BaseParamType"""
+
+    def test_class_representation_is_correct(self):
+        assert 'INTEGER' == repr(IntType())
 
     @pytest.mark.parametrize('value', ['foo', '4.5'])
     def test_should_raise_error_when_value_has_incorrect_type(self, value):
@@ -28,6 +33,40 @@ class TestBaseParamType:
             assert int(str_value) == value
         except click.BadParameter:
             pytest.fail(f'Unexpected fail with value: {str_value}')
+
+
+@validator
+def even(value):
+    """Simple validator defined for test purpose"""
+    return not (value % 2)
+
+
+class EvenType(ValidatorParamType):
+    name = 'even'
+
+    def __init__(self):
+        super().__init__(even, 'even number')
+
+
+class TestValidatorParamType:
+    """Tests class ValidatorParamType"""
+
+    def test_class_representation_is_correct(self):
+        assert 'EVEN' == repr(EvenType())
+
+    @pytest.mark.parametrize('value', [5, 13])
+    def test_should_raise_error_when_value_is_incorrect(self, value):
+        with pytest.raises(click.BadParameter) as exc_info:
+            EvenType().convert(value, None, None)
+
+        assert f'{value} is not a valid even number' == str(exc_info.value)
+
+    @pytest.mark.parametrize('value', [0, 4])
+    def test_should_return_value_when_giving_corrected_value(self, value):
+        try:
+            assert value == EvenType().convert(value, None, None)
+        except click.BadParameter:
+            pytest.fail(f'Unexpected error with value {value}')
 
 
 class IntRange(RangeParamType):
