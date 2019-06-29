@@ -1,16 +1,18 @@
 """Base classes to implement various parameter types"""
-from typing import Union, Tuple, Callable
+from decimal import DecimalException
+from typing import Union, Tuple, Callable, List
 
 import click
 
-from .annotations import Min, Max, Error, NumClass
+from .annotations import Min, Max, Error, NumClass, NumList
 
 
 class BaseParamType(click.ParamType):
-    def __init__(self, _type: NumClass, str_type: str, errors: Union[Error, Tuple[Error]]):
+    def __init__(self, _type: NumClass, errors: Union[Error, Tuple[Error]], name: str = None):
         self._type = _type
         self._errors = errors
-        self._error_message = '{value} is not a valid %s' % str_type
+        self._name = name or self.name
+        self._error_message = '{value} is not a valid %s' % self._name
 
     def convert(self, value, param, ctx):
         try:
@@ -73,3 +75,38 @@ class RangeParamType(click.ParamType):
         titles = [part.title() for part in parts]
         new_name = ''.join(titles)
         return f'{new_name}({repr(self._minimum)}, {repr(self._maximum)})'
+
+
+class ListParamType(click.ParamType):
+    """
+    This class is not intended to be used directly but to serve as a basis to implement
+    custom classes of item lists.
+    """
+
+    def __init__(self, separator: str = ','):
+        if not isinstance(separator, str):
+            raise TypeError('separator must be a string')
+        self._separator = separator
+
+    def _strip_separator(self, expression: str) -> str:
+        """Returns a new expression with heading and trailing separator character removed."""
+        return expression.strip(self._separator)
+
+    def _convert_expression_to_numeric_list(self, expression: str, _type: NumClass) -> Tuple[List[str], NumList]:
+        """
+        Converts expression and returns a tuple (errors, numeric_list) where errors is a list of non-compliant items
+        and numeric_list is the list of converted expression items.
+        :param expression: a string expression to convert to a list.
+        :param _type: the type of every element of a list.
+        """
+        errors = []
+        numeric_list = []
+        for item in expression.split(self._separator):
+            try:
+                numeric_list.append(_type(item))
+            except (ValueError, ZeroDivisionError, DecimalException):
+                errors.append(item)
+        return errors, numeric_list
+
+    def __repr__(self):
+        return self.name.upper()

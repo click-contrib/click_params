@@ -8,14 +8,14 @@ class IpAddress(BaseParamType):
     name = 'ip address'
 
     def __init__(self):
-        super().__init__(_type=ipaddress.ip_address, str_type='ip address', errors=ValueError)
+        super().__init__(_type=ipaddress.ip_address, errors=ValueError)
 
 
 class Ipv4Address(BaseParamType):
     name = 'ipv4 address'
 
     def __init__(self):
-        super().__init__(_type=ipaddress.IPv4Address, str_type='ipv4 address', errors=ValueError)
+        super().__init__(_type=ipaddress.IPv4Address, errors=ValueError)
 
 
 class Ipv4AddressRange(RangeParamType):
@@ -33,7 +33,7 @@ class Ipv6Address(BaseParamType):
     name = 'ipv6 address'
 
     def __init__(self):
-        super().__init__(_type=ipaddress.IPv6Address, str_type='ipv6 address', errors=ValueError)
+        super().__init__(_type=ipaddress.IPv6Address, errors=ValueError)
 
 
 class Ipv6AddressRange(RangeParamType):
@@ -51,21 +51,21 @@ class IpNetwork(BaseParamType):
     name = 'ip network'
 
     def __init__(self):
-        super().__init__(_type=ipaddress.ip_network, str_type='ip network', errors=ValueError)
+        super().__init__(_type=ipaddress.ip_network, errors=ValueError)
 
 
 class Ipv4Network(BaseParamType):
     name = 'ipv4 network'
 
     def __init__(self):
-        super().__init__(_type=ipaddress.IPv4Network, str_type='ipv4 network', errors=ValueError)
+        super().__init__(_type=ipaddress.IPv4Network, errors=ValueError)
 
 
 class Ipv6Network(BaseParamType):
     name = 'ipv6 network'
 
     def __init__(self):
-        super().__init__(_type=ipaddress.IPv6Network, str_type='ipv6 network', errors=ValueError)
+        super().__init__(_type=ipaddress.IPv6Network, errors=ValueError)
 
 
 IP_ADDRESS = IpAddress()

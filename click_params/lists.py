@@ -1,49 +1,11 @@
 """Parameter types to represent list of items."""
-from decimal import Decimal, DecimalException
+from decimal import Decimal
 from fractions import Fraction
-from typing import List, Tuple
 
-import click
-
-from .annotations import NumClass, NumList
+from .base import ListParamType
 
 
-class BaseList(click.ParamType):
-    """
-    This class is not intended to be used directly but to serve as a basis to implement
-    custom classes of item lists.
-    """
-
-    def __init__(self, separator: str = ','):
-        if not isinstance(separator, str):
-            raise TypeError('separator must be a string')
-        self._separator = separator
-
-    def _strip_separator(self, expression: str) -> str:
-        """Returns a new expression with heading and trailing separator character removed."""
-        return expression.strip(self._separator)
-
-    def _convert_expression_to_numeric_list(self, expression: str, _type: NumClass) -> Tuple[List[str], NumList]:
-        """
-        Converts expression and returns a tuple (errors, numeric_list) where errors is a list of non-compliant items
-        and numeric_list is the list of converted expression items.
-        :param expression: a string expression to convert to a list.
-        :param _type: the type of every element of a list.
-        """
-        errors = []
-        numeric_list = []
-        for item in expression.split(self._separator):
-            try:
-                numeric_list.append(_type(item))
-            except (ValueError, ZeroDivisionError, DecimalException):
-                errors.append(item)
-        return errors, numeric_list
-
-    def __repr__(self):
-        return self.name.upper()
-
-
-class StringListParamType(BaseList):
+class StringListParamType(ListParamType):
     name = 'string list'
 
     def convert(self, value, param, ctx):
@@ -51,7 +13,7 @@ class StringListParamType(BaseList):
         return value.split(self._separator)
 
 
-class IntListParamType(BaseList):
+class IntListParamType(ListParamType):
     name = 'int list'
 
     def convert(self, value, param, ctx):
@@ -63,7 +25,7 @@ class IntListParamType(BaseList):
         return int_list
 
 
-class FloatListParamType(BaseList):
+class FloatListParamType(ListParamType):
     name = 'float list'
 
     def convert(self, value, param, ctx):
@@ -75,7 +37,7 @@ class FloatListParamType(BaseList):
         return float_list
 
 
-class DecimalListParamType(BaseList):
+class DecimalListParamType(ListParamType):
     name = 'decimal list'
 
     def convert(self, value, param, ctx):
@@ -87,7 +49,7 @@ class DecimalListParamType(BaseList):
         return decimal_list
 
 
-class FractionListParamType(BaseList):
+class FractionListParamType(ListParamType):
     name = 'fraction list'
 
     def convert(self, value, param, ctx):
@@ -99,7 +61,7 @@ class FractionListParamType(BaseList):
         return fraction_list
 
 
-class ComplexListParamType(BaseList):
+class ComplexListParamType(ListParamType):
     name = 'complex list'
 
     def convert(self, value, param, ctx):

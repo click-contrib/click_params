@@ -1,7 +1,10 @@
+from decimal import Decimal
+from fractions import Fraction
+
 import click
 import pytest
 
-from click_params.base import RangeParamType, BaseParamType, ValidatorParamType
+from click_params.base import RangeParamType, BaseParamType, ValidatorParamType, ListParamType
 from validators.utils import validator
 
 
@@ -10,7 +13,7 @@ class IntType(BaseParamType):
     name = 'integer'
 
     def __init__(self):
-        super().__init__(_type=int, str_type='integer', errors=ValueError)
+        super().__init__(_type=int, errors=ValueError)
 
 
 class TestBaseParamType:
@@ -118,3 +121,58 @@ class TestRangeParamType:
             int_range.convert(given_input, None, None)
 
         assert message == str(exc_info.value)
+
+
+class TestListParamType:
+    """Tests class ListParamType"""
+
+    @pytest.mark.parametrize('separator', [2, 2.5])
+    def test_should_raise_error_when_instantiating_with_non_string_parameter(self, separator):
+        with pytest.raises(TypeError) as exc_info:
+            # noinspection PyTypeChecker
+            ListParamType(separator)
+
+        assert 'separator must be a string' == str(exc_info.value)
+
+    @pytest.mark.parametrize('separator', [
+        {},  # default separator should be used i.e ","
+        {'separator': ' '},
+        {'separator': ';'}
+    ])
+    def test_should_not_raise_error_when_instantiating_with_a_string(self, separator):
+        try:
+            ListParamType(**separator)
+        except TypeError:
+            pytest.fail(f'unexpected fail with separator = {separator}')
+
+    # we test method _strip_separator
+
+    @pytest.mark.parametrize(('separator', 'expression'), [
+        (',', '1,2'),
+        (',', ',1,2,'),
+        (';', ';1;2'),
+        (' ', '1 2 '),
+    ])
+    def test_should_return_correct_expression(self, separator, expression):
+        base_list = ListParamType(separator)
+        assert f'1{separator}2' == base_list._strip_separator(expression)
+
+    # we test method _convert_expression_to_numeric_list
+
+    @pytest.mark.parametrize(('expression', '_type', 'expected_errors', 'expected_num_list'), [
+        ('1,2,3', int, [], [1, 2, 3]),
+        ('1,2.5', float, [], [1.0, 2.5]),
+        ('', int, [''], []),
+        ('', float, [''], []),
+        ('1,foo,2', int, ['foo'], [1, 2]),
+        ('1.4,bar,2.8', float, ['bar'], [1.4, 2.8]),
+        ('1,.2,foo', Decimal, ['foo'], [Decimal('1'), Decimal('0.2')]),
+        ('2,1/0', Fraction, ['1/0'], [Fraction(2, 1)]),
+        ('5,1.4,foo,2+1j', complex, ['foo'], [complex(5, 0), complex(1.4, 0), complex(2, 1)])
+    ])
+    def test_should_return_correct_list_of_tuples(self, expression, _type, expected_errors, expected_num_list):
+        base_list = ListParamType()
+        errors, numeric_list = base_list._convert_expression_to_numeric_list(expression, _type)
+
+        assert expected_errors == errors
+        assert expected_num_list == numeric_list

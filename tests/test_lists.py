@@ -1,69 +1,11 @@
-from decimal import Decimal
-from fractions import Fraction
-
 import click
 import pytest
 
 from click_params.lists import (
-    BaseList, StringListParamType, IntListParamType, FloatListParamType, DecimalListParamType,
+    StringListParamType, IntListParamType, FloatListParamType, DecimalListParamType,
     FractionListParamType, ComplexListParamType
 )
 from tests.helpers import assert_equals_output, assert_in_output
-
-
-class TestBaseList:
-    """Tests class BaseList"""
-
-    @pytest.mark.parametrize('separator', [2, 2.5])
-    def test_should_raise_error_when_instantiating_with_non_string_parameter(self, separator):
-        with pytest.raises(TypeError) as exc_info:
-            # noinspection PyTypeChecker
-            BaseList(separator)
-
-        assert 'separator must be a string' == str(exc_info.value)
-
-    @pytest.mark.parametrize('separator', [
-        {},  # default separator should be used i.e ","
-        {'separator': ' '},
-        {'separator': ';'}
-    ])
-    def test_should_not_raise_error_when_instantiating_with_a_string(self, separator):
-        try:
-            BaseList(**separator)
-        except TypeError:
-            pytest.fail(f'unexpected fail with separator = {separator}')
-
-    # we test method _strip_separator
-
-    @pytest.mark.parametrize(('separator', 'expression'), [
-        (',', '1,2'),
-        (',', ',1,2,'),
-        (';', ';1;2'),
-        (' ', '1 2 '),
-    ])
-    def test_should_return_correct_expression(self, separator, expression):
-        base_list = BaseList(separator)
-        assert f'1{separator}2' == base_list._strip_separator(expression)
-
-    # we test method _convert_expression_to_numeric_list
-
-    @pytest.mark.parametrize(('expression', '_type', 'expected_errors', 'expected_num_list'), [
-        ('1,2,3', int, [], [1, 2, 3]),
-        ('1,2.5', float, [], [1.0, 2.5]),
-        ('', int, [''], []),
-        ('', float, [''], []),
-        ('1,foo,2', int, ['foo'], [1, 2]),
-        ('1.4,bar,2.8', float, ['bar'], [1.4, 2.8]),
-        ('1,.2,foo', Decimal, ['foo'], [Decimal('1'), Decimal('0.2')]),
-        ('2,1/0', Fraction, ['1/0'], [Fraction(2, 1)]),
-        ('5,1.4,foo,2+1j', complex, ['foo'], [complex(5, 0), complex(1.4, 0), complex(2, 1)])
-    ])
-    def test_should_return_correct_list_of_tuples(self, expression, _type, expected_errors, expected_num_list):
-        base_list = BaseList()
-        errors, numeric_list = base_list._convert_expression_to_numeric_list(expression, _type)
-
-        assert expected_errors == errors
-        assert expected_num_list == numeric_list
 
 
 @pytest.mark.parametrize(('name', 'parameter'), [
@@ -88,7 +30,7 @@ def test_parameter_name_and_representation_are_correct(name, parameter):
     (ComplexListParamType(' '), '5 2+1j')
 ])
 def test_parameter_convert_method_calls_strip_separator(mocker, parameter, expression):
-    strip_mock = mocker.patch('click_params.lists.BaseList._strip_separator')
+    strip_mock = mocker.patch('click_params.base.ListParamType._strip_separator')
     parameter.convert(expression, None, None)
 
     strip_mock.assert_called_once_with(expression)

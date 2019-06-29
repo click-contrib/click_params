@@ -9,7 +9,7 @@ class DecimalParamType(BaseParamType):
     name = 'decimal'
 
     def __init__(self):
-        super().__init__(_type=Decimal, str_type='decimal', errors=DecimalException)
+        super().__init__(_type=Decimal, errors=DecimalException)
 
 
 class DecimalRange(RangeParamType):
@@ -23,7 +23,7 @@ class FractionParamType(BaseParamType):
     name = 'fraction'
 
     def __init__(self):
-        super().__init__(_type=Fraction, str_type='fraction', errors=(ValueError, ZeroDivisionError))
+        super().__init__(_type=Fraction, errors=(ValueError, ZeroDivisionError))
 
 
 class FractionRange(RangeParamType):
@@ -37,7 +37,7 @@ class ComplexParamType(BaseParamType):
     name = 'complex'
 
     def __init__(self):
-        super().__init__(_type=complex, str_type='complex', errors=ValueError)
+        super().__init__(_type=complex, errors=ValueError)
 
 
 DECIMAL = DecimalParamType()
