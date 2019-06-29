@@ -1,7 +1,25 @@
 """Base classes to implement various parameter types"""
+from typing import Union, Tuple
+
 import click
 
-from .annotations import Min, Max
+from .annotations import Min, Max, Error, NumClass
+
+
+class BaseParamType(click.ParamType):
+    def __init__(self, _type: NumClass, str_type: str, errors: Union[Error, Tuple[Error]]):
+        self._type = _type
+        self._errors = errors
+        self._error_message = '{value} is not a valid %s' % str_type
+
+    def convert(self, value, param, ctx):
+        try:
+            return self._type(value)
+        except self._errors:
+            self.fail(self._error_message.format(value=value), param, ctx)
+
+    def __repr__(self):
+        return self.name.upper()
 
 
 class RangeParamType(click.ParamType):

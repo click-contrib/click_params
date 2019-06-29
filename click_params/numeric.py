@@ -1,31 +1,11 @@
 """Numeric parameter types"""
 from decimal import Decimal, DecimalException
 from fractions import Fraction
-from typing import Tuple, Union
 
-import click
-
-from .annotations import Error, NumClass
-from .base import RangeParamType
+from .base import RangeParamType, BaseParamType
 
 
-class NumericParamType(click.ParamType):
-    def __init__(self, _type: NumClass, str_type: str, errors: Union[Error, Tuple[Error]]):
-        self._type = _type
-        self._errors = errors
-        self._error_message = '{value} is not a valid %s' % str_type
-
-    def convert(self, value, param, ctx):
-        try:
-            return self._type(value)
-        except self._errors:
-            self.fail(self._error_message.format(value=value))
-
-    def __repr__(self):
-        return self.name.upper()
-
-
-class DecimalParamType(NumericParamType):
+class DecimalParamType(BaseParamType):
     name = 'decimal'
 
     def __init__(self):
@@ -39,7 +19,7 @@ class DecimalRange(RangeParamType):
         super().__init__(DecimalParamType(), minimum, maximum, clamp)
 
 
-class FractionParamType(NumericParamType):
+class FractionParamType(BaseParamType):
     name = 'fraction'
 
     def __init__(self):
@@ -53,7 +33,7 @@ class FractionRange(RangeParamType):
         super().__init__(FractionParamType(), minimum, maximum, clamp)
 
 
-class ComplexParamType(NumericParamType):
+class ComplexParamType(BaseParamType):
     name = 'complex'
 
     def __init__(self):

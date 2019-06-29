@@ -4,35 +4,8 @@ from fractions import Fraction
 import click
 import pytest
 
-from click_params.numeric import NumericParamType, DECIMAL, FRACTION, COMPLEX, DecimalRange, FractionRange
-
+from click_params.numeric import DECIMAL, FRACTION, COMPLEX, DecimalRange, FractionRange
 from tests.helpers import assert_in_output, assert_equals_output
-
-
-class IntType(NumericParamType):
-    """We use this custom type to test NumericParamType"""
-
-    def __init__(self, _type=int, str_type='integer', errors=ValueError):
-        super().__init__(_type, str_type, errors)
-
-
-class TestNumericParamType:
-    """Tests NumericParamType"""
-
-    @pytest.mark.parametrize('value', ['foo', '4.5'])
-    def test_should_raise_error_when_value_has_incorrect_type(self, value):
-        with pytest.raises(click.BadParameter) as exc_info:
-            IntType().convert(value, None, None)
-
-        assert f'{value} is not a valid integer' == str(exc_info.value)
-
-    def test_should_return_converted_value_when_giving_correct_input(self):
-        str_value = '4'
-        try:
-            value = IntType().convert(str_value, None, None)
-            assert int(str_value) == value
-        except click.BadParameter:
-            pytest.fail(f'Unexpected fail with value: {str_value}')
 
 
 @pytest.mark.parametrize(('name', 'parameter'), [
