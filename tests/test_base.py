@@ -41,7 +41,7 @@ class TestBaseParamType:
 @validator
 def even(value):
     """Simple validator defined for test purpose"""
-    return not (value % 2)
+    return not (int(value) % 2)
 
 
 class EvenType(ValidatorParamType):
@@ -57,14 +57,14 @@ class TestValidatorParamType:
     def test_class_representation_is_correct(self):
         assert 'EVEN' == repr(EvenType())
 
-    @pytest.mark.parametrize('value', [5, 13])
+    @pytest.mark.parametrize('value', ['5', '13'])
     def test_should_raise_error_when_value_is_incorrect(self, value):
         with pytest.raises(click.BadParameter) as exc_info:
             EvenType().convert(value, None, None)
 
         assert f'{value} is not a valid even number' == str(exc_info.value)
 
-    @pytest.mark.parametrize('value', [0, 4])
+    @pytest.mark.parametrize('value', ['0', '4'])
     def test_should_return_value_when_giving_corrected_value(self, value):
         try:
             assert value == EvenType().convert(value, None, None)
