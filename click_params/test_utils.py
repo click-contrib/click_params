@@ -5,16 +5,16 @@ from click.testing import Result
 
 
 def assert_in_output(exit_code: int, expected_output: str, result: Result) -> None:
-    assert exit_code == result.exit_code
-    assert expected_output in result.output
+    assert exit_code == result.exit_code  # nosec
+    assert expected_output in result.output  # nosec
 
 
 def assert_list_in_output(exit_code: int, data: List[str], result: Result) -> None:
-    assert exit_code == result.exit_code
+    assert exit_code == result.exit_code  # nosec
     for item in data:
-        assert item in result.output
+        assert item in result.output  # nosec
 
 
 def assert_equals_output(exit_code: int, expected_output: str, result: Result) -> None:
-    assert exit_code == result.exit_code
-    assert expected_output == result.output
+    assert exit_code == result.exit_code  # nosec
+    assert expected_output == result.output  # nosec
