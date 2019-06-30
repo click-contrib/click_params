@@ -1,14 +1,13 @@
 """Base classes to implement various parameter types"""
-from decimal import DecimalException
-from typing import Union, Tuple, Callable, List
+from typing import Union, Tuple, Callable, List, Any
 
 import click
 
-from .annotations import Min, Max, Error, NumClass, NumList
+from .annotations import Min, Max, Error
 
 
 class BaseParamType(click.ParamType):
-    def __init__(self, _type: NumClass, errors: Union[Error, Tuple[Error]], name: str = None):
+    def __init__(self, _type: Any, errors: Union[Error, Tuple[Error]], name: str = None):
         self._type = _type
         self._errors = errors
         self._name = name or self.name
@@ -87,26 +86,27 @@ class ListParamType(click.ParamType):
         if not isinstance(separator, str):
             raise TypeError('separator must be a string')
         self._separator = separator
+        self._error_message = 'These items are not {type}: {errors}'
 
     def _strip_separator(self, expression: str) -> str:
         """Returns a new expression with heading and trailing separator character removed."""
         return expression.strip(self._separator)
 
-    def _convert_expression_to_numeric_list(self, expression: str, _type: NumClass) -> Tuple[List[str], NumList]:
+    def _convert_expression_to_list(self, expression: str, param_type: click.ParamType) -> Tuple[List[str], Any]:
         """
-        Converts expression and returns a tuple (errors, numeric_list) where errors is a list of non-compliant items
-        and numeric_list is the list of converted expression items.
+        Converts expression and returns a tuple (errors, converted_items) where errors is a list of non-compliant items
+        and converted_items is the list of converted expression items.
         :param expression: a string expression to convert to a list.
-        :param _type: the type of every element of a list.
+        :param param_type: the click param type used to convert items.
         """
         errors = []
-        numeric_list = []
+        converted_items = []
         for item in expression.split(self._separator):
             try:
-                numeric_list.append(_type(item))
-            except (ValueError, ZeroDivisionError, DecimalException):
+                converted_items.append(param_type.convert(item, None, None))
+            except click.BadParameter:
                 errors.append(item)
-        return errors, numeric_list
+        return errors, converted_items
 
     def __repr__(self):
         return self.name.upper()

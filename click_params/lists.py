@@ -1,8 +1,9 @@
 """Parameter types to represent list of items."""
-from decimal import Decimal
-from fractions import Fraction
+
+import click
 
 from .base import ListParamType
+from .numeric import DECIMAL, FRACTION, COMPLEX
 
 
 class StringListParamType(ListParamType):
@@ -18,9 +19,9 @@ class IntListParamType(ListParamType):
 
     def convert(self, value, param, ctx):
         value = self._strip_separator(value)
-        errors, int_list = self._convert_expression_to_numeric_list(value, int)
+        errors, int_list = self._convert_expression_to_list(value, click.INT)
         if errors:
-            self.fail(f'These items are not integers: {errors}', param, ctx)
+            self.fail(self._error_message.format(type='integers', errors=errors), param, ctx)
 
         return int_list
 
@@ -30,9 +31,9 @@ class FloatListParamType(ListParamType):
 
     def convert(self, value, param, ctx):
         value = self._strip_separator(value)
-        errors, float_list = self._convert_expression_to_numeric_list(value, float)
+        errors, float_list = self._convert_expression_to_list(value, click.FLOAT)
         if errors:
-            self.fail(f'These items are not floating point values: {errors}', param, ctx)
+            self.fail(self._error_message.format(type='floating point values', errors=errors), param, ctx)
 
         return float_list
 
@@ -42,9 +43,9 @@ class DecimalListParamType(ListParamType):
 
     def convert(self, value, param, ctx):
         value = self._strip_separator(value)
-        errors, decimal_list = self._convert_expression_to_numeric_list(value, Decimal)
+        errors, decimal_list = self._convert_expression_to_list(value, DECIMAL)
         if errors:
-            self.fail(f'These items are not decimal values: {errors}', param, ctx)
+            self.fail(self._error_message.format(type='decimal values', errors=errors), param, ctx)
 
         return decimal_list
 
@@ -54,9 +55,9 @@ class FractionListParamType(ListParamType):
 
     def convert(self, value, param, ctx):
         value = self._strip_separator(value)
-        errors, fraction_list = self._convert_expression_to_numeric_list(value, Fraction)
+        errors, fraction_list = self._convert_expression_to_list(value, FRACTION)
         if errors:
-            self.fail(f'These items are not fraction values: {errors}', param, ctx)
+            self.fail(self._error_message.format(type='fraction values', errors=errors), param, ctx)
 
         return fraction_list
 
@@ -66,8 +67,8 @@ class ComplexListParamType(ListParamType):
 
     def convert(self, value, param, ctx):
         value = self._strip_separator(value)
-        errors, complex_list = self._convert_expression_to_numeric_list(value, complex)
+        errors, complex_list = self._convert_expression_to_list(value, COMPLEX)
         if errors:
-            self.fail(f'These items are not complex values: {errors}', param, ctx)
+            self.fail(self._error_message.format(type='complex values', errors=errors), param, ctx)
 
         return complex_list

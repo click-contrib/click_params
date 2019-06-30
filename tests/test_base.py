@@ -5,6 +5,7 @@ import click
 import pytest
 
 from click_params.base import RangeParamType, BaseParamType, ValidatorParamType, ListParamType
+from click_params.numeric import DECIMAL, COMPLEX, FRACTION
 from validators.utils import validator
 
 
@@ -157,22 +158,23 @@ class TestListParamType:
         base_list = ListParamType(separator)
         assert f'1{separator}2' == base_list._strip_separator(expression)
 
-    # we test method _convert_expression_to_numeric_list
+    # we test method _convert_expression_to_list
 
-    @pytest.mark.parametrize(('expression', '_type', 'expected_errors', 'expected_num_list'), [
-        ('1,2,3', int, [], [1, 2, 3]),
-        ('1,2.5', float, [], [1.0, 2.5]),
-        ('', int, [''], []),
-        ('', float, [''], []),
-        ('1,foo,2', int, ['foo'], [1, 2]),
-        ('1.4,bar,2.8', float, ['bar'], [1.4, 2.8]),
-        ('1,.2,foo', Decimal, ['foo'], [Decimal('1'), Decimal('0.2')]),
-        ('2,1/0', Fraction, ['1/0'], [Fraction(2, 1)]),
-        ('5,1.4,foo,2+1j', complex, ['foo'], [complex(5, 0), complex(1.4, 0), complex(2, 1)])
+    # noinspection PyTypeChecker
+    @pytest.mark.parametrize(('expression', 'param_type', 'expected_errors', 'expected_num_list'), [
+        ('1,2,3', click.INT, [], [1, 2, 3]),
+        ('1,2.5', click.FLOAT, [], [1.0, 2.5]),
+        ('', click.INT, [''], []),
+        ('', click.FLOAT, [''], []),
+        ('1,foo,2', click.INT, ['foo'], [1, 2]),
+        ('1.4,bar,2.8', click.FLOAT, ['bar'], [1.4, 2.8]),
+        ('1,.2,foo', DECIMAL, ['foo'], [Decimal('1'), Decimal('0.2')]),
+        ('2,1/0', FRACTION, ['1/0'], [Fraction(2, 1)]),
+        ('5,1.4,foo,2+1j', COMPLEX, ['foo'], [complex(5, 0), complex(1.4, 0), complex(2, 1)])
     ])
-    def test_should_return_correct_list_of_tuples(self, expression, _type, expected_errors, expected_num_list):
+    def test_should_return_correct_list_of_tuples(self, expression, param_type, expected_errors, expected_num_list):
         base_list = ListParamType()
-        errors, numeric_list = base_list._convert_expression_to_numeric_list(expression, _type)
+        errors, numeric_list = base_list._convert_expression_to_list(expression, param_type)
 
         assert expected_errors == errors
         assert expected_num_list == numeric_list
