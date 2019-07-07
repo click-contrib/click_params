@@ -2,7 +2,9 @@
 from decimal import Decimal, DecimalException
 from fractions import Fraction
 
-from .base import RangeParamType, BaseParamType
+import click
+
+from .base import BaseParamType, RangeParamType, ListParamType
 
 
 class DecimalParamType(BaseParamType):
@@ -16,7 +18,14 @@ class DecimalRange(RangeParamType):
     name = 'decimal range'
 
     def __init__(self, minimum: Decimal = None, maximum: Decimal = None, clamp: bool = False):
-        super().__init__(DecimalParamType(), minimum, maximum, clamp)
+        super().__init__(DECIMAL, minimum, maximum, clamp)
+
+
+class DecimalListParamType(ListParamType):
+    name = 'decimal list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(DECIMAL, separator=separator, name='decimal values')
 
 
 class FractionParamType(BaseParamType):
@@ -30,7 +39,14 @@ class FractionRange(RangeParamType):
     name = 'fraction range'
 
     def __init__(self, minimum: Fraction = None, maximum: Fraction = None, clamp: bool = False):
-        super().__init__(FractionParamType(), minimum, maximum, clamp)
+        super().__init__(FRACTION, minimum, maximum, clamp)
+
+
+class FractionListParamType(ListParamType):
+    name = 'fraction list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(FRACTION, separator=separator, name='fraction values')
 
 
 class ComplexParamType(BaseParamType):
@@ -38,6 +54,27 @@ class ComplexParamType(BaseParamType):
 
     def __init__(self):
         super().__init__(_type=complex, errors=ValueError)
+
+
+class ComplexListParamType(ListParamType):
+    name = 'complex list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(COMPLEX, separator=separator, name='complex values')
+
+
+class IntListParamType(ListParamType):
+    name = 'int list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(click.INT, separator=separator, name='integers')
+
+
+class FloatListParamType(ListParamType):
+    name = 'float list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(click.FLOAT, separator=separator, name='floating point values')
 
 
 DECIMAL = DecimalParamType()

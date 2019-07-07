@@ -1,16 +1,20 @@
 __version__ = '0.1.0'
 
 from .base import BaseParamType, ValidatorParamType, RangeParamType, ListParamType
-from .domain import DOMAIN, PUBLIC_URL, URL, EMAIL, SLUG, EmailParamType
-from .lists import (
-    StringListParamType, IntListParamType, FloatListParamType, FractionListParamType, DecimalListParamType,
-    ComplexListParamType
+from .domain import (
+    DOMAIN, PUBLIC_URL, URL, EMAIL, SLUG, EmailParamType, DomainListParamType, PublicUrlListParamType,
+    UrlListParamType, EmailListParamType, SlugListParamType
 )
-from .miscellaneous import JSON, MAC_ADDRESS
+from .miscellaneous import JSON, MAC_ADDRESS, StringListParamType, MacAddressListParamType
 from .network import (
-    IP_ADDRESS, IPV4_ADDRESS, IPV6_ADDRESS, IP_NETWORK, IPV4_NETWORK, IPV6_NETWORK, Ipv4AddressRange, Ipv6AddressRange
+    IP_ADDRESS, IPV4_ADDRESS, IPV6_ADDRESS, IP_NETWORK, IPV4_NETWORK, IPV6_NETWORK, Ipv4AddressRange, Ipv6AddressRange,
+    IpAddressListParamType, Ipv4AddressListParamType, Ipv6AddressListParamType, IpNetworkListParamType,
+    Ipv4NetworkListParamType, Ipv6NetworkListParamType
 )
-from .numeric import COMPLEX, FRACTION, DECIMAL, DecimalRange, FractionRange
+from .numeric import (
+    COMPLEX, FRACTION, DECIMAL, DecimalRange, FractionRange, IntListParamType, FloatListParamType,
+    FractionListParamType, DecimalListParamType, ComplexListParamType
+)
 from .test_utils import assert_list_in_output, assert_equals_output, assert_in_output
 
 __all__ = [
@@ -18,21 +22,20 @@ __all__ = [
     'BaseParamType', 'ValidatorParamType', 'RangeParamType', 'ListParamType',
 
     # domain
-    'DOMAIN', 'PUBLIC_URL', 'URL', 'EmailParamType', 'EMAIL', 'SLUG',
-
-    # lists
-    'StringListParamType', 'IntListParamType', 'FloatListParamType', 'FractionListParamType', 'DecimalListParamType',
-    'ComplexListParamType',
+    'DOMAIN', 'PUBLIC_URL', 'URL', 'EmailParamType', 'EMAIL', 'SLUG', 'DomainListParamType', 'PublicUrlListParamType',
+    'UrlListParamType', 'EmailListParamType', 'SlugListParamType',
 
     # miscellaneous
-    'JSON', 'MAC_ADDRESS',
+    'JSON', 'MAC_ADDRESS', 'StringListParamType', 'MacAddressListParamType',
 
     # network
     'IP_ADDRESS', 'IPV6_ADDRESS', 'IPV4_ADDRESS', 'IP_NETWORK', 'IPV4_NETWORK', 'IPV6_NETWORK', 'Ipv4AddressRange',
-    'Ipv6AddressRange',
+    'Ipv6AddressRange', 'IpAddressListParamType', 'Ipv4AddressListParamType', 'Ipv6AddressListParamType',
+    'Ipv4NetworkListParamType', 'IpNetworkListParamType', 'Ipv6NetworkListParamType',
 
     # numeric
-    'FRACTION', 'FractionRange', 'DECIMAL', 'DecimalRange', 'COMPLEX',
+    'FRACTION', 'FractionRange', 'DECIMAL', 'DecimalRange', 'COMPLEX', 'IntListParamType', 'FloatListParamType',
+    'FractionListParamType', 'DecimalListParamType', 'ComplexListParamType',
 
     # test_utils
     'assert_equals_output', 'assert_in_output', 'assert_list_in_output'

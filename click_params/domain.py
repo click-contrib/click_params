@@ -4,7 +4,7 @@ from typing import List
 
 from validators import domain, url, email, slug
 
-from .base import ValidatorParamType
+from .base import ValidatorParamType, ListParamType
 
 
 class DomainParamType(ValidatorParamType):
@@ -14,11 +14,32 @@ class DomainParamType(ValidatorParamType):
         super().__init__(callback=domain)
 
 
+class DomainListParamType(ListParamType):
+    name = 'domain list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(DOMAIN, separator=separator, name='domain names')
+
+
 class UrlParamType(ValidatorParamType):
     name = 'url'
 
     def __init__(self, public: bool = False):
         super().__init__(callback=partial(url, public=public))
+
+
+class UrlListParamType(ListParamType):
+    name = 'url list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(URL, separator=separator, name='urls')
+
+
+class PublicUrlListParamType(ListParamType):
+    name = 'url list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(PUBLIC_URL, separator=separator, name='urls')
 
 
 class EmailParamType(ValidatorParamType):
@@ -28,11 +49,25 @@ class EmailParamType(ValidatorParamType):
         super().__init__(callback=partial(email, whitelist=whitelist))
 
 
+class EmailListParamType(ListParamType):
+    name = 'email list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(EMAIL, separator=separator, name='emails')
+
+
 class SlugParamType(ValidatorParamType):
     name = 'slug'
 
     def __init__(self):
         super().__init__(callback=slug)
+
+
+class SlugListParamType(ListParamType):
+    name = 'slug list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(SLUG, separator=separator, name='slugs')
 
 
 DOMAIN = DomainParamType()

@@ -1,7 +1,7 @@
 """Network parameter types"""
 import ipaddress
 
-from .base import BaseParamType, RangeParamType
+from .base import BaseParamType, RangeParamType, ListParamType
 
 
 class IpAddress(BaseParamType):
@@ -9,6 +9,13 @@ class IpAddress(BaseParamType):
 
     def __init__(self):
         super().__init__(_type=ipaddress.ip_address, errors=ValueError)
+
+
+class IpAddressListParamType(ListParamType):
+    name = 'ip address list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(IP_ADDRESS, separator=separator, name='ip addresses')
 
 
 class Ipv4Address(BaseParamType):
@@ -29,6 +36,13 @@ class Ipv4AddressRange(RangeParamType):
         return f'IPV4AddressRange({repr(self._minimum)}, {repr(self._maximum)})'
 
 
+class Ipv4AddressListParamType(ListParamType):
+    name = 'ipv4 address list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(IPV4_ADDRESS, separator=separator, name='ipv4 addresses')
+
+
 class Ipv6Address(BaseParamType):
     name = 'ipv6 address'
 
@@ -47,11 +61,25 @@ class Ipv6AddressRange(RangeParamType):
         return f'IPV6AddressRange({repr(self._minimum)}, {repr(self._maximum)})'
 
 
+class Ipv6AddressListParamType(ListParamType):
+    name = 'ipv6 address list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(IPV6_ADDRESS, separator=separator, name='ipv6 addresses')
+
+
 class IpNetwork(BaseParamType):
     name = 'ip network'
 
     def __init__(self):
         super().__init__(_type=ipaddress.ip_network, errors=ValueError)
+
+
+class IpNetworkListParamType(ListParamType):
+    name = 'ip network list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(IP_NETWORK, separator=separator, name='ip networks')
 
 
 class Ipv4Network(BaseParamType):
@@ -61,11 +89,25 @@ class Ipv4Network(BaseParamType):
         super().__init__(_type=ipaddress.IPv4Network, errors=ValueError)
 
 
+class Ipv4NetworkListParamType(ListParamType):
+    name = 'ipv4 network list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(IPV4_NETWORK, separator=separator, name='ipv4 networks')
+
+
 class Ipv6Network(BaseParamType):
     name = 'ipv6 network'
 
     def __init__(self):
         super().__init__(_type=ipaddress.IPv6Network, errors=ValueError)
+
+
+class Ipv6NetworkListParamType(ListParamType):
+    name = 'ipv6 network list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(IPV6_NETWORK, separator=separator, name='ipv6 networks')
 
 
 IP_ADDRESS = IpAddress()

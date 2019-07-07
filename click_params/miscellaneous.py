@@ -5,7 +5,7 @@ from typing import Callable
 import click
 from validators import mac_address
 
-from .base import ValidatorParamType
+from .base import ValidatorParamType, ListParamType
 
 
 class JsonParamType(click.ParamType):
@@ -39,6 +39,24 @@ class MacAddressParamType(ValidatorParamType):
 
     def __init__(self):
         super().__init__(callback=mac_address)
+
+
+class MacAddressListParamType(ListParamType):
+    name = 'mac address list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(MAC_ADDRESS, separator, name='mac addresses')
+
+
+class StringListParamType(ListParamType):
+    name = 'string list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(click.STRING, separator)
+
+    def convert(self, value, param, ctx):
+        value = self._strip_separator(value)
+        return value.split(self._separator)
 
 
 JSON = JsonParamType()
