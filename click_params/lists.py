@@ -4,10 +4,15 @@ import click
 
 from .base import ListParamType
 from .numeric import DECIMAL, FRACTION, COMPLEX
+from .domain import DOMAIN, URL, PUBLIC_URL, EMAIL, SLUG
+from .network import IP_ADDRESS, IPV4_ADDRESS, IPV6_ADDRESS, IP_NETWORK, IPV4_NETWORK, IPV6_NETWORK
 
 
 class StringListParamType(ListParamType):
     name = 'string list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(click.STRING, separator)
 
     def convert(self, value, param, ctx):
         value = self._strip_separator(value)
@@ -17,58 +22,110 @@ class StringListParamType(ListParamType):
 class IntListParamType(ListParamType):
     name = 'int list'
 
-    def convert(self, value, param, ctx):
-        value = self._strip_separator(value)
-        errors, int_list = self._convert_expression_to_list(value, click.INT)
-        if errors:
-            self.fail(self._error_message.format(type='integers', errors=errors), param, ctx)
-
-        return int_list
+    def __init__(self, separator: str = ','):
+        super().__init__(click.INT, separator=separator, name='integers')
 
 
 class FloatListParamType(ListParamType):
     name = 'float list'
 
-    def convert(self, value, param, ctx):
-        value = self._strip_separator(value)
-        errors, float_list = self._convert_expression_to_list(value, click.FLOAT)
-        if errors:
-            self.fail(self._error_message.format(type='floating point values', errors=errors), param, ctx)
-
-        return float_list
+    def __init__(self, separator: str = ','):
+        super().__init__(click.FLOAT, separator=separator, name='floating point values')
 
 
 class DecimalListParamType(ListParamType):
     name = 'decimal list'
 
-    def convert(self, value, param, ctx):
-        value = self._strip_separator(value)
-        errors, decimal_list = self._convert_expression_to_list(value, DECIMAL)
-        if errors:
-            self.fail(self._error_message.format(type='decimal values', errors=errors), param, ctx)
-
-        return decimal_list
+    def __init__(self, separator: str = ','):
+        super().__init__(DECIMAL, separator=separator, name='decimal values')
 
 
 class FractionListParamType(ListParamType):
     name = 'fraction list'
 
-    def convert(self, value, param, ctx):
-        value = self._strip_separator(value)
-        errors, fraction_list = self._convert_expression_to_list(value, FRACTION)
-        if errors:
-            self.fail(self._error_message.format(type='fraction values', errors=errors), param, ctx)
-
-        return fraction_list
+    def __init__(self, separator: str = ','):
+        super().__init__(FRACTION, separator=separator, name='fraction values')
 
 
 class ComplexListParamType(ListParamType):
     name = 'complex list'
 
-    def convert(self, value, param, ctx):
-        value = self._strip_separator(value)
-        errors, complex_list = self._convert_expression_to_list(value, COMPLEX)
-        if errors:
-            self.fail(self._error_message.format(type='complex values', errors=errors), param, ctx)
+    def __init__(self, separator: str = ','):
+        super().__init__(COMPLEX, separator=separator, name='complex values')
 
-        return complex_list
+
+class DomainListParamType(ListParamType):
+    name = 'domain list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(DOMAIN, separator=separator, name='domain names')
+
+
+class UrlListParamType(ListParamType):
+    name = 'url list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(URL, separator=separator, name='urls')
+
+
+class PublicUrlListParamType(ListParamType):
+    name = 'url list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(PUBLIC_URL, separator=separator, name='urls')
+
+
+class EmailListParamType(ListParamType):
+    name = 'email list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(EMAIL, separator=separator, name='emails')
+
+
+class SlugListParamType(ListParamType):
+    name = 'slug list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(SLUG, separator=separator, name='slugs')
+
+
+class IpAddressListParamType(ListParamType):
+    name = 'ip address list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(IP_ADDRESS, separator=separator, name='ip addresses')
+
+
+class Ipv4AddressListParamType(ListParamType):
+    name = 'ipv4 address list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(IPV4_ADDRESS, separator=separator, name='ipv4 addresses')
+
+
+class Ipv6AddressListParamType(ListParamType):
+    name = 'ipv6 address list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(IPV6_ADDRESS, separator=separator, name='ipv6 addresses')
+
+
+class IpNetworkListParamType(ListParamType):
+    name = 'ip network list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(IP_NETWORK, separator=separator, name='ip networks')
+
+
+class Ipv4NetworkListParamType(ListParamType):
+    name = 'ipv4 network list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(IPV4_NETWORK, separator=separator, name='ipv4 networks')
+
+
+class Ipv6NetworkListParamType(ListParamType):
+    name = 'ipv6 network list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(IPV6_NETWORK, separator=separator, name='ipv6 networks')
