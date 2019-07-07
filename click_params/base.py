@@ -77,36 +77,41 @@ class RangeParamType(click.ParamType):
 
 
 class ListParamType(click.ParamType):
-    """
-    This class is not intended to be used directly but to serve as a basis to implement
-    custom classes of item lists.
-    """
 
-    def __init__(self, separator: str = ','):
+    def __init__(self, param_type: click.ParamType, separator: str = ',', name: str = None):
         if not isinstance(separator, str):
             raise TypeError('separator must be a string')
         self._separator = separator
-        self._error_message = 'These items are not {type}: {errors}'
+        self._name = name or self.name
+        self._param_type = param_type
+        self._error_message = 'These items are not %s: {errors}' % self._name
 
     def _strip_separator(self, expression: str) -> str:
         """Returns a new expression with heading and trailing separator character removed."""
         return expression.strip(self._separator)
 
-    def _convert_expression_to_list(self, expression: str, param_type: click.ParamType) -> Tuple[List[str], Any]:
+    def _convert_expression_to_list(self, expression: str) -> Tuple[List[str], Any]:
         """
         Converts expression and returns a tuple (errors, converted_items) where errors is a list of non-compliant items
         and converted_items is the list of converted expression items.
         :param expression: a string expression to convert to a list.
-        :param param_type: the click param type used to convert items.
         """
         errors = []
         converted_items = []
         for item in expression.split(self._separator):
             try:
-                converted_items.append(param_type.convert(item, None, None))
+                converted_items.append(self._param_type.convert(item, None, None))
             except click.BadParameter:
                 errors.append(item)
         return errors, converted_items
+
+    def convert(self, value, param, ctx):
+        value = self._strip_separator(value)
+        errors, converted_list = self._convert_expression_to_list(value)
+        if errors:
+            self.fail(self._error_message.format(errors=errors), param, ctx)
+
+        return converted_list
 
     def __repr__(self):
         return self.name.upper()

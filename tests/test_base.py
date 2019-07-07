@@ -1,12 +1,11 @@
-from decimal import Decimal
 from fractions import Fraction
 
 import click
 import pytest
+from validators.utils import validator
 
 from click_params.base import RangeParamType, BaseParamType, ValidatorParamType, ListParamType
-from click_params.numeric import DECIMAL, COMPLEX, FRACTION
-from validators.utils import validator
+from click_params.numeric import DECIMAL, FRACTION, COMPLEX
 
 
 class IntType(BaseParamType):
@@ -131,7 +130,7 @@ class TestListParamType:
     def test_should_raise_error_when_instantiating_with_non_string_parameter(self, separator):
         with pytest.raises(TypeError) as exc_info:
             # noinspection PyTypeChecker
-            ListParamType(separator)
+            ListParamType(click.INT, separator)
 
         assert 'separator must be a string' == str(exc_info.value)
 
@@ -142,7 +141,7 @@ class TestListParamType:
     ])
     def test_should_not_raise_error_when_instantiating_with_a_string(self, separator):
         try:
-            ListParamType(**separator)
+            ListParamType(click.INT, **separator)
         except TypeError:
             pytest.fail(f'unexpected fail with separator = {separator}')
 
@@ -155,26 +154,30 @@ class TestListParamType:
         (' ', '1 2 '),
     ])
     def test_should_return_correct_expression(self, separator, expression):
-        base_list = ListParamType(separator)
+        base_list = ListParamType(click.INT, separator)
         assert f'1{separator}2' == base_list._strip_separator(expression)
 
-    # we test method _convert_expression_to_list
-
-    # noinspection PyTypeChecker
-    @pytest.mark.parametrize(('expression', 'param_type', 'expected_errors', 'expected_num_list'), [
-        ('1,2,3', click.INT, [], [1, 2, 3]),
-        ('1,2.5', click.FLOAT, [], [1.0, 2.5]),
-        ('', click.INT, [''], []),
-        ('', click.FLOAT, [''], []),
-        ('1,foo,2', click.INT, ['foo'], [1, 2]),
-        ('1.4,bar,2.8', click.FLOAT, ['bar'], [1.4, 2.8]),
-        ('1,.2,foo', DECIMAL, ['foo'], [Decimal('1'), Decimal('0.2')]),
-        ('2,1/0', FRACTION, ['1/0'], [Fraction(2, 1)]),
-        ('5,1.4,foo,2+1j', COMPLEX, ['foo'], [complex(5, 0), complex(1.4, 0), complex(2, 1)])
+    @pytest.mark.parametrize(('expression', 'param_type', 'name', 'errors'), [
+        ('1,foo,2', click.INT, 'integers', ['foo']),
+        ('1.4,bar,2.8', click.FLOAT, 'floating point values', ['bar']),
+        ('1,.2,foo', DECIMAL, 'decimal values', ['foo']),
+        ('2,1/0', FRACTION, 'fraction values', ['1/0']),
     ])
-    def test_should_return_correct_list_of_tuples(self, expression, param_type, expected_errors, expected_num_list):
-        base_list = ListParamType()
-        errors, numeric_list = base_list._convert_expression_to_list(expression, param_type)
+    def test_should_raise_error_when_items_are_incorrect(self, expression, param_type, name, errors):
+        base_list = ListParamType(param_type, name=name)
 
-        assert expected_errors == errors
-        assert expected_num_list == numeric_list
+        with pytest.raises(click.BadParameter) as exc_info:
+            base_list.convert(expression, None, None)
+
+        assert f'These items are not {name}: {errors}' == str(exc_info.value)
+
+    @pytest.mark.parametrize(('expression', 'param_type', 'name', 'values'), [
+        ('1,2,3', click.INT, 'integers', [1, 2, 3]),
+        ('1,2.5', click.FLOAT, 'floating point values', [1.0, 2.5]),
+        ('2', FRACTION, 'fraction values', [Fraction(2, 1)]),
+        ('5,1.4,2+1j', COMPLEX, 'complex values', [complex(5, 0), complex(1.4, 0), complex(2, 1)])
+    ])
+    def test_should_return_correct_items_when_giving_correct_expression(self, expression, param_type, name, values):
+        # noinspection PyTypeChecker
+        base_list = ListParamType(param_type, name=name)
+        assert values == base_list.convert(expression, None, None)
