@@ -9,6 +9,7 @@ pytest-cov = "*"
 flake8 = "*"
 bandit = "*"
 pytest-mock = "*"
+mkdocs = "*"
 
 [packages]
 click = "*"
