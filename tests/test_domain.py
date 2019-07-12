@@ -12,12 +12,12 @@ from tests.helpers import assert_in_output, assert_equals_output
     ('domain name', DOMAIN),
     ('url', PUBLIC_URL),
     ('url', URL),
-    ('email', EMAIL),
+    ('email address', EMAIL),
     ('slug', SLUG),
-    ('domain list', DomainListParamType()),
+    ('domain name list', DomainListParamType()),
     ('url list', UrlListParamType()),
     ('url list', PublicUrlListParamType()),
-    ('email list', EmailListParamType()),
+    ('email address list', EmailListParamType()),
     ('slug list', SlugListParamType()),
 ])
 def test_parameter_name_and_representation_are_correct(name, parameter):
@@ -56,7 +56,7 @@ def test_should_print_error_when_giving_incorrect_option_for_simple_types(runner
     (DomainListParamType(' '), 'foo.com bar', "domain names: ['bar']"),
     (UrlListParamType(' '), 'http://foo.com foo://bar.com', "urls: ['foo://bar.com']"),
     (PublicUrlListParamType(' '), 'http://foo.com ftp://10.0.0.1', "urls: ['ftp://10.0.0.1']"),
-    (EmailListParamType(' '), 'bar@yahoo.fr bogus@@ foo@gmail.com', "emails: ['bogus@@']"),
+    (EmailListParamType(' '), 'bar@yahoo.fr bogus@@ foo@gmail.com', "email addresses: ['bogus@@']"),
     (SlugListParamType(' '), 'foo bar.com tar_foo', "slugs: ['bar.com']"),
 ])
 def test_should_print_error_when_giving_incorrect_option_for_list_types(runner, parameter, expression, message):

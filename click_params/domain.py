@@ -15,7 +15,7 @@ class DomainParamType(ValidatorParamType):
 
 
 class DomainListParamType(ListParamType):
-    name = 'domain list'
+    name = 'domain name list'
 
     def __init__(self, separator: str = ','):
         super().__init__(DOMAIN, separator=separator, name='domain names')
@@ -43,17 +43,17 @@ class PublicUrlListParamType(ListParamType):
 
 
 class EmailParamType(ValidatorParamType):
-    name = 'email'
+    name = 'email address'
 
     def __init__(self, whitelist: List[str] = None):
         super().__init__(callback=partial(email, whitelist=whitelist))
 
 
 class EmailListParamType(ListParamType):
-    name = 'email list'
+    name = 'email address list'
 
     def __init__(self, separator: str = ','):
-        super().__init__(EMAIL, separator=separator, name='emails')
+        super().__init__(EMAIL, separator=separator, name='email addresses')
 
 
 class SlugParamType(ValidatorParamType):
