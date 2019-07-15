@@ -46,7 +46,7 @@ class FractionListParamType(ListParamType):
     name = 'fraction list'
 
     def __init__(self, separator: str = ','):
-        super().__init__(FRACTION, separator=separator, name='fraction values')
+        super().__init__(FRACTION, separator=separator, name='fractions')
 
 
 class ComplexParamType(BaseParamType):

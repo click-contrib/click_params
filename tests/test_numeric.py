@@ -58,7 +58,7 @@ def test_should_print_error_when_giving_incorrect_option_for_simple_types(runner
     (IntListParamType(), '1,foo,2,2.5', "integers: ['foo', '2.5']"),
     (FloatListParamType(), '1.2,foo,2.5,bar', "floating point values: ['foo', 'bar']"),
     (DecimalListParamType(), '1.2,foo,2.5,bar', "decimal values: ['foo', 'bar']"),
-    (FractionListParamType(' '), '1/3 foo/2 2.5 3/bar tar', "fraction values: ['foo/2', '3/bar', 'tar']"),
+    (FractionListParamType(' '), '1/3 foo/2 2.5 3/bar tar', "fractions: ['foo/2', '3/bar', 'tar']"),
     (ComplexListParamType(' '), '5 foo 2+1j 1.4 bar', "complex values: ['foo', 'bar']")
 ])
 def test_should_print_error_when_giving_incorrect_option_for_list_types(runner, parameter, expression, message):
