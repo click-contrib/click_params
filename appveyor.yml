@@ -1,0 +1,18 @@
+init:
+  - SET PATH=%PYTHON%;%PATH%
+
+environment:
+  matrix:
+    - PYTHON: C:\Python36-x64
+    - PYTHON: C:\Python37-x64
+
+install:
+  - python -m pip install pipenv
+  - python -m pipenv install --dev
+
+build: off
+
+test_script:
+  - python -m pipenv run flake8
+  - python -m pipenv run bandit -r click_params
+  - python -m pipenv run pytest
