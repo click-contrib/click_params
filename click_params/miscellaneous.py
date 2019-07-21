@@ -1,6 +1,6 @@
 """Parameter types that do not fit into other modules"""
 import json
-from typing import Callable
+from typing import Callable, List
 
 import click
 from validators import mac_address
@@ -45,7 +45,7 @@ class MacAddressListParamType(ListParamType):
     name = 'mac address list'
 
     def __init__(self, separator: str = ','):
-        super().__init__(MAC_ADDRESS, separator, name='mac addresses')
+        super().__init__(MAC_ADDRESS, separator=separator, name='mac addresses')
 
 
 class StringListParamType(ListParamType):
@@ -57,6 +57,20 @@ class StringListParamType(ListParamType):
     def convert(self, value, param, ctx):
         value = self._strip_separator(value)
         return value.split(self._separator)
+
+
+class UUIDListParamType(ListParamType):
+    name = 'uuid list'
+
+    def __init__(self, separator: str = ','):
+        super().__init__(click.UUID, separator=separator, name='uuid')
+
+
+class DateTimeListParamType(ListParamType):
+    name = 'datetime list'
+
+    def __init__(self, separator: str = ',', formats: List[str] = None):
+        super().__init__(click.DateTime(formats=formats), separator=separator, name='datetimes')
 
 
 JSON = JsonParamType()

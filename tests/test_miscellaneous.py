@@ -3,7 +3,10 @@ from decimal import Decimal
 import click
 import pytest
 
-from click_params.miscellaneous import JSON, MAC_ADDRESS, JsonParamType, StringListParamType, MacAddressListParamType
+from click_params.miscellaneous import (
+    JSON, MAC_ADDRESS, JsonParamType, StringListParamType, MacAddressListParamType, UUIDListParamType,
+    DateTimeListParamType
+)
 
 from tests.helpers import assert_in_output, assert_equals_output
 
@@ -12,7 +15,9 @@ from tests.helpers import assert_in_output, assert_equals_output
     (JSON, 'json'),
     (MAC_ADDRESS, 'mac address'),
     (StringListParamType(), 'string list'),
-    (MacAddressListParamType(), 'mac address list')
+    (MacAddressListParamType(), 'mac address list'),
+    (UUIDListParamType(), 'uuid list'),
+    (DateTimeListParamType(), 'datetime list')
 ])
 def test_parameter_name_and_representation_are_correct(parameter, name):
     assert name == parameter.name
@@ -37,7 +42,9 @@ def test_should_print_error_when_giving_incorrect_option_for_simple_types(runner
 
 
 @pytest.mark.parametrize(('parameter', 'expression', 'message'), [
-    (MacAddressListParamType(' '), 'D4:6A:6A:12:B0:75 foo 00:00:00:00:00', "mac addresses: ['foo', '00:00:00:00:00']")
+    (MacAddressListParamType(' '), 'D4:6A:6A:12:B0:75 foo 00:00:00:00:00', "mac addresses: ['foo', '00:00:00:00:00']"),
+    (UUIDListParamType(' '), 'foo a7309d0b-c858-4d54-b6e1-1c20f8c22047 142-48dr', "uuid: ['foo', '142-48dr']"),
+    (DateTimeListParamType(' '), '145 2019-01-01 2019/01/01', "datetimes: ['145', '2019/01/01']")
 ])
 def test_should_print_error_when_giving_incorrect_option_for_list_types(runner, parameter, expression, message):
     @click.command()
@@ -76,7 +83,17 @@ def test_should_print_correct_output_when_giving_correct_option_for_simple_types
     # mac address list
     (MacAddressListParamType(), 'D4:6A:6A:12:B0:75,01:23:45:67:ab:CD', "['D4:6A:6A:12:B0:75', '01:23:45:67:ab:CD']\n"),
     (MacAddressListParamType(' '), 'D4:6A:6A:12:B0:75 01:23:45:67:ab:CD',
-     "['D4:6A:6A:12:B0:75', '01:23:45:67:ab:CD']\n")
+     "['D4:6A:6A:12:B0:75', '01:23:45:67:ab:CD']\n"),
+    # uuid list
+    (UUIDListParamType(), 'a7309d0b-c858-4d54-b6e1-1c20f8c22047,bfa65f3c-e6ac-4844-8e09-e84535f8cdc5',
+     "[UUID('a7309d0b-c858-4d54-b6e1-1c20f8c22047'), UUID('bfa65f3c-e6ac-4844-8e09-e84535f8cdc5')]\n"),
+    (UUIDListParamType(' '), 'a7309d0b-c858-4d54-b6e1-1c20f8c22047 bfa65f3c-e6ac-4844-8e09-e84535f8cdc5',
+     "[UUID('a7309d0b-c858-4d54-b6e1-1c20f8c22047'), UUID('bfa65f3c-e6ac-4844-8e09-e84535f8cdc5')]\n"),
+    # datetime list
+    (DateTimeListParamType(), '2019-01-01,2019-01-01 01:00:00',
+     '[datetime.datetime(2019, 1, 1, 0, 0), datetime.datetime(2019, 1, 1, 1, 0)]\n'),
+    (DateTimeListParamType(', '), '2019-01-01, 2019-01-01 01:00:00',
+     '[datetime.datetime(2019, 1, 1, 0, 0), datetime.datetime(2019, 1, 1, 1, 0)]\n')
 ])
 def test_should_print_correct_output_when_giving_correct_option_for_list_types(runner, parameter, expression,
                                                                                expected_output):
