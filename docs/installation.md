@@ -8,7 +8,7 @@ pip install click-params
 
 The project has a few dependencies:
 
-- [click](https://click.palletsprojects.com/)
+- [click](https://click.palletsprojects.com/) >= 7.0
 - [validators](https://validators.readthedocs.io/en/latest/)
 
 !!! note
