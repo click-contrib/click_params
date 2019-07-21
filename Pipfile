@@ -11,6 +11,7 @@ bandit = "*"
 pytest-mock = "*"
 mkdocs = "*"
 codecov = "*"
+twine = "*"
 
 [packages]
 click = "*"
