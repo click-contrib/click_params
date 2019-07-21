@@ -10,6 +10,7 @@ flake8 = "*"
 bandit = "*"
 pytest-mock = "*"
 mkdocs = "*"
+codecov = "*"
 
 [packages]
 click = "*"
