@@ -1,0 +1,11 @@
+version: 2
+
+mkdocs:
+  configuration: mkdocs.yml
+
+formats: all  # html zip, epub and pdf
+
+python:
+  # To date mkdocs (0.17.3 used by readthedocs) failed with python3.7, so we tell readthedocs to use python3.6
+  # for documentation building.
+  version: 3.6
