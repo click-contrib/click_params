@@ -1,6 +1,6 @@
 # click-params
 
-[![Pypi version](https://img.shields.io/pypi/v/click_params.svg)](https://pypi.org/project/click_params/)
+[![Pypi version](https://img.shields.io/pypi/v/click-params.svg)](https://pypi.org/project/click-params/)
 [![Build Status](https://travis-ci.com/lewoudar/click_params.svg?branch=master)](https://travis-ci.com/lewoudar/click_params)
 [![Windows Build Status](https://img.shields.io/appveyor/ci/lewoudar/click-params/master.svg?label=Windows)](https://ci.appveyor.com/project/lewoudar/click-params)
 [![Coverage Status](https://codecov.io/gh/lewoudar/click_params/branch/master/graphs/badge.svg?branch=master)](https://codecov.io/gh/lewoudar/click_params)
