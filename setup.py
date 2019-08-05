@@ -23,7 +23,7 @@ def get_long_description():
 setup(
     name='click-params',
     python_requires='>=3.6',
-    url='https://github.com/lewoudar/click_params',
+    url='https://github.com/click-contrib/click_params',
     version=get_version('click_params'),
     author='Kevin Tewouda',
     author_email='lewoudar@gmail.com',

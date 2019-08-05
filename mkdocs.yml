@@ -3,7 +3,7 @@ site_description: click-params package documentation
 site_author: Kevin Tewouda
 site_url: https://click-params.readthedocs.io
 
-repo_url: https://github.com/lewoudar/click_params/
+repo_url: https://github.com/click-contrib/click_params/
 edit_uri: tree/master/docs
 
 pages:
