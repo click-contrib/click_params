@@ -1,19 +1,24 @@
 init:
   - SET PATH=%PYTHON%;%PATH%
 
+matrix:
+  fast_finish: true
+
 environment:
   matrix:
     - PYTHON: C:\Python36-x64
+      NOX_SESSION: tests-3.6
     - PYTHON: C:\Python37-x64
+      NOX_SESSION: tests-3.7
     - PYTHON: C:\Python38-x64
+      NOX_SESSION: tests-3.8
+
 
 install:
-  - python -m pip install pipenv
-  - python -m pipenv install --dev
+  - python -m pip install nox
 
-build: off
+build_script:
+  - python -m pip install -e .
 
 test_script:
-  - python -m pipenv run flake8
-  - python -m pipenv run bandit -r click_params
-  - python -m pipenv run pytest
+  - python -m nox -s %NOX_SESSION%

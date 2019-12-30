@@ -1,14 +1,15 @@
-.idea/
-.pytest_cache/
+.idea
+.pytest_cache
 .coverage
-htmlcov/
+htmlcov
+.nox
 
 # byte-compiled / optimized
-__pycache__/
+__pycache__
 *.pyc
-*.egg-info/
+*.egg-info
 
 # packaging / distribution
-site/
-dist/
-build/
+site
+dist
+build

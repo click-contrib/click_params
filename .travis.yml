@@ -1,29 +1,31 @@
 dist: xenial
 language: python
 
-python:
-  - '3.6'
-  - '3.7'
-  - '3.8'
+matrix:
+  include:
+    - python: '3.6'
+      env: NOXSESSION=tests-3.6
+    - python: '3.7'
+      env: NOXSESSION=tests-3.7
+    - python: '3.8'
+      env: NOXSESSION=tests-3.8
+    - python: '3.8'
+      env: NOXSESSION=lint
+    - python: '3.8'
+      env: NOXSESSION=docs
 
-install:
-  - pip install pipenv
-  - pipenv install --dev
+install: pip install -U pip setuptools nox
 
-script:
-  - flake8
-  - bandit -r click_params
-  - pytest
-
-after_script:
-  - codecov
+script: nox -s $NOXSESSION
 
 deploy:
   provider: pypi
   user: le_woudar
   password:
     secure: AGj+kiPyR8xeyxRKNbaAJzVUx1w1Aa+Piki8CiEWwTTWb6FDAzgngStNwdfvTlcIVb6fP+AK2rLDbhlj/u4cyNB+aR5ZnuM9XiI1drtYL4Y4D3jdbQlpoyh0lYG53P3OMyTOKoKB/RvKCtxisnHHIwvxn/Fok0obQoWT2XASqEmD9B3XSstkMLAjXfvDmMwfli8HJG1S+0FTEXY/BfFBdZzNMjbPiLTIaTTSfAtEO6YXdds9Bn64CyNAF1DExvN2rZzNA+xXbXj0ZqQFl3a+6Q9O+/YVCclJRplQP1ymQmIShHfD1j3Qz0xFOknPufz7zykJ7dTfIpe82NvGIBo47T8urNn3x/UZsdbELutgi9ljtQoyujPaTZsgu23Nu1pdwzOHRWoauLpGjO2zekX87BSY7EdC9FzGbWKy8g9tnOhg91eEuPCjoHTtSnyTB6kgozqDwNeSQTDGbZTpzabe0xG7O+v87RsOcIyBCHY2pfygr89RUWSsXNQGFDiw5fLiC/fdRyuGXrMPSFwNzDLMpVIbMGkvTNIHGBY9zJKRNYV5yOML2vI9hIUtu4i43rxbtIdWRkXHTOnsg4nWVJ7bntUpHFu5d4m1RwmatvyxHn7tbch928jc9kJ54pWokSIzwXWzr7x+8gZIQW49jXWNc7wA/F5h0gjE7oZRP2CRZ34=
-  distributions: sdist bdist_wheel
+  distributions: "sdist bdist_wheel"
   on:
     tags: true
-    python: '3.7'
+    branch: master
+    repo: click-contrib/click_params
+    condition: $NOXSESSION = tests-3.8
