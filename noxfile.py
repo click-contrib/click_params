@@ -32,7 +32,6 @@ def tests(session):
 def codecov(session):
     """Runs codecov command to share coverage information on codecov.io"""
     session.install('codecov')
-    session.cd('tests')
     session.run('coverage', 'xml', '-i')
     session.run('codecov', '-f', 'coverage.xml')
 
