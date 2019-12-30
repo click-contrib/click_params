@@ -12,6 +12,7 @@ pytest-mock = "*"
 mkdocs = "*"
 codecov = "*"
 twine = "*"
+nox = "*"
 
 [packages]
 click = "*"
