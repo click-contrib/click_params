@@ -46,10 +46,10 @@ Ready to contribute? Here is how to setup the project for local development.
 2. Clone your fork locally. If you don't know how to proceed, 
    take a look at this [article](https://help.github.com/en/articles/fork-a-repo).
 
-3. Install the dependencies needed by the project.
+3. Install the dependencies needed by the project. You must first install [poetry](https://python-poetry.org/docs/) on
+   your computer. After that, you can run:
     ```bash
-    pip install -e .
-    pipenv install --dev
+    poetry install
     ```
 
 4. Create a branch for local development
@@ -57,13 +57,10 @@ Ready to contribute? Here is how to setup the project for local development.
     git checkout -b name-of-bug-or-feature
     ```
 
-5. When you are done with your work, you need to pass tests with flake8, bandit and pytest.
+5. When you are done with your work, you need to pass all the tests using [nox](https://nox.thea.codes/en/stable/).
     ```bash
-    flake8
-    bandit -r click_params
-    pytest
+    nox -s lint tests
     ```
-    To run a subset of the tests, you can use the standard [pytest filters](https://docs.pytest.org/en/latest/usage.html#specifying-tests-selecting-tests).
 
 6. Commit your changes and push your branch to GitHub.
     For the commit message, you should use the convention described [here](https://medium.com/@menuka/writing-meaningful-git-commit-messages-a62756b65c81).
