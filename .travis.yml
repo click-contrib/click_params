@@ -1,5 +1,8 @@
 dist: xenial
 language: python
+env:
+  global:
+    secure: OG7AhLPzIwNVmjA+6ngzzUdlp8vX0A6oofZj1N650DwIQKExJlIitKmhMrlA7eIbiwDhiWPdZjq5UMeRwSS3TqfA1IwBUXvtsFdmyHJRasidRj89zyruqszrAetjyVBpRzfhR1m8NV02gvLtbJQDLdnEUkAhG1rSASikBmxOpGKx2cS7uta9MUjqANWVsCr0/76tYiP7m3yfFGEO6vJUj1ObmAsDZmQiOLB/xM9xZxTcd6FnyD/NkNcaQ3hriL+Xev9X/5PhcV+XUXrNC+NlsaEXECCvu2PkRvUUitCcpgN5HWmR+LTLcHSAU+ro/JSLsd5PcL0Ve8DW4OTp5BWn5SD9XivONSSN3R1j+lg3s75qWyftIDtUyW6VbAS/NUVoHdbZc9k3DP7mMPYavr7+uQ8Gd5PL/aDsJnmvmmAY0h24KzwS+IoZIgbD/LKXTq6IccUj5cr+srX7u2YmGVa/ZTQ5cNo9rZFgZkl0X+KFHtz8i4gFLcpCXu/wBc5MfgNOxhsSgkCJWNcTG+eTug8dq1UhqxOxu9S2Dvc4tqA8vK74TZOp9h1J2DTfFI4hEi3O2VXK3LCzblAvwVFtqEG9dcowCojN54AfOMzdDew+brxkkIS6Sy1mPllV872/7f/a9xnjl8h7moZxZ5cLsDGZMyKF67oZ0RXrlTLcct3gyHA=
 
 matrix:
   include:
@@ -19,13 +22,10 @@ install: pip install -U pip setuptools nox
 script: nox -s $NOXSESSION
 
 deploy:
-  provider: pypi
-  user: le_woudar
-  password:
-    secure: AGj+kiPyR8xeyxRKNbaAJzVUx1w1Aa+Piki8CiEWwTTWb6FDAzgngStNwdfvTlcIVb6fP+AK2rLDbhlj/u4cyNB+aR5ZnuM9XiI1drtYL4Y4D3jdbQlpoyh0lYG53P3OMyTOKoKB/RvKCtxisnHHIwvxn/Fok0obQoWT2XASqEmD9B3XSstkMLAjXfvDmMwfli8HJG1S+0FTEXY/BfFBdZzNMjbPiLTIaTTSfAtEO6YXdds9Bn64CyNAF1DExvN2rZzNA+xXbXj0ZqQFl3a+6Q9O+/YVCclJRplQP1ymQmIShHfD1j3Qz0xFOknPufz7zykJ7dTfIpe82NvGIBo47T8urNn3x/UZsdbELutgi9ljtQoyujPaTZsgu23Nu1pdwzOHRWoauLpGjO2zekX87BSY7EdC9FzGbWKy8g9tnOhg91eEuPCjoHTtSnyTB6kgozqDwNeSQTDGbZTpzabe0xG7O+v87RsOcIyBCHY2pfygr89RUWSsXNQGFDiw5fLiC/fdRyuGXrMPSFwNzDLMpVIbMGkvTNIHGBY9zJKRNYV5yOML2vI9hIUtu4i43rxbtIdWRkXHTOnsg4nWVJ7bntUpHFu5d4m1RwmatvyxHn7tbch928jc9kJ54pWokSIzwXWzr7x+8gZIQW49jXWNc7wA/F5h0gjE7oZRP2CRZ34=
-  distributions: "sdist bdist_wheel"
+  provider: script
+  script: nox -s deploy
   on:
     tags: true
     branch: master
     repo: click-contrib/click_params
-    condition: $NOXSESSION = tests-3.8
+    condition: "$NOXSESSION = tests-3.8"

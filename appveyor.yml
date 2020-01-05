@@ -17,8 +17,7 @@ environment:
 install:
   - python -m pip install nox
 
-build_script:
-  - python -m pip install -e .
+build: off
 
 test_script:
   - python -m nox -s %NOX_SESSION%

@@ -1,5 +1,5 @@
-import shutil
 import os
+import shutil
 
 import nox
 
@@ -11,8 +11,8 @@ PYTHON_VERSIONS = ['3.6', '3.7', '3.8']
 @nox.session(python=PYTHON_VERSIONS[-1])
 def lint(session):
     """Performs pep8 and security checks."""
-    source_code = 'click_params'
-    session.install('flake8', 'bandit')
+    source_code = 'configuror'
+    session.install('flake8==3.7.9', 'bandit==1.6.2')
     session.run('flake8', source_code)
     session.run('bandit', '-r', source_code)
 
@@ -20,7 +20,8 @@ def lint(session):
 @nox.session(python=PYTHON_VERSIONS)
 def tests(session):
     """Runs the test suite."""
-    session.install('click', 'validators', 'pytest', 'pytest-cov', 'pytest-mock')
+    session.install('poetry>=1.0.0,<2.0.0')
+    session.run('poetry', 'install')
     session.run('pytest')
 
     # we notify codecov when the latest version of python is used
@@ -31,7 +32,7 @@ def tests(session):
 @nox.session
 def codecov(session):
     """Runs codecov command to share coverage information on codecov.io"""
-    session.install('codecov')
+    session.install('codecov==2.0.15')
     session.run('coverage', 'xml', '-i')
     session.run('codecov', '-f', 'coverage.xml')
 
@@ -39,21 +40,20 @@ def codecov(session):
 @nox.session(python=PYTHON_VERSIONS[-1])
 def docs(session):
     """Builds the documentation."""
-    session.install('mkdocs')
+    session.install('mkdocs==1.0.4')
     session.run('mkdocs', 'build', '--clean')
 
 
-@nox.session
+@nox.session(python=PYTHON_VERSIONS[-1])
 def deploy(session):
     """
-    Deploys build on pypi repositories (can be test or production repository).
-    Extra arguments passed to nox will be passed to the twine command.
+    Deploys on pypi.
     """
-    if not session.posargs and not session.interactive:
-        session.error("you don't pass arguments to session and you are not in interactive mode")
-    session.install('-U', 'twine', 'setuptools', 'wheel')
-    session.run('python', 'setup.py', 'sdist', 'bdist_wheel')
-    session.run('twine', 'upload', 'dist/*', *session.posargs)
+    if 'POETRY_PYPI_TOKEN_PYPI' not in os.environ:
+        session.error('you must specify your pypi token api to deploy your package')
+
+    session.install('poetry>=1.0.0,<2.0.0')
+    session.run('poetry', 'publish', '--build')
 
 
 @nox.session(python=False)
