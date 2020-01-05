@@ -11,7 +11,7 @@ PYTHON_VERSIONS = ['3.6', '3.7', '3.8']
 @nox.session(python=PYTHON_VERSIONS[-1])
 def lint(session):
     """Performs pep8 and security checks."""
-    source_code = 'configuror'
+    source_code = 'click_params'
     session.install('flake8==3.7.9', 'bandit==1.6.2')
     session.run('flake8', source_code)
     session.run('bandit', '-r', source_code)
