@@ -38,6 +38,7 @@ bandit = "^1.6.2"
 flake8 = "^3.7.9"
 nox = "^2019.11.9"
 codecov = "^2.1.11"
+mkdocs-material = "^7.1.4"
 
 [build-system]
 requires = ["poetry>=0.12"]
