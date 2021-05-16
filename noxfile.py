@@ -5,14 +5,15 @@ import nox
 
 nox.options.reuse_existing_virtualenvs = True
 
-PYTHON_VERSIONS = ['3.6', '3.7', '3.8']
+PYTHON_VERSIONS = ['pypy3', '3.6', '3.7', '3.8', '3.9', 'pypy3']
+CI_ENVIRONMENT = 'GITHUB_ACTIONS' in os.environ
 
 
 @nox.session(python=PYTHON_VERSIONS[-1])
 def lint(session):
     """Performs pep8 and security checks."""
     source_code = 'click_params'
-    session.install('flake8==3.7.9', 'bandit==1.6.2')
+    session.install('flake8==3.9.2', 'bandit==1.7.0')
     session.run('flake8', source_code)
     session.run('bandit', '-r', source_code)
 
@@ -25,16 +26,8 @@ def tests(session):
     session.run('pytest')
 
     # we notify codecov when the latest version of python is used
-    if session.python == PYTHON_VERSIONS[-1] and 'APPVEYOR_URL' not in os.environ:
-        session.notify('codecov')
-
-
-@nox.session
-def codecov(session):
-    """Runs codecov command to share coverage information on codecov.io"""
-    session.install('codecov==2.0.15')
-    session.run('coverage', 'xml', '-i')
-    session.run('codecov', '-f', 'coverage.xml')
+    if session.python == PYTHON_VERSIONS[-1] and CI_ENVIRONMENT:
+        session.run('codecov', '-f', 'coverage.xml')
 
 
 @nox.session(python=PYTHON_VERSIONS[-1])

@@ -1,8 +1,7 @@
 # click-params
 
 [![Pypi version](https://img.shields.io/pypi/v/click-params.svg)](https://pypi.org/project/click-params/)
-[![Build Status](https://travis-ci.com/click-contrib/click_params.svg?branch=master)](https://travis-ci.com/click-contrib/click_params)
-[![Windows Build Status](https://img.shields.io/appveyor/ci/lewoudar/click-params/master.svg?label=Windows)](https://ci.appveyor.com/project/lewoudar/click-params)
+![](https://github.com/click-contrib/click_params/workflows/CI/badge.svg)
 [![Coverage Status](https://codecov.io/gh/click-contrib/click_params/branch/master/graphs/badge.svg?branch=master)](https://codecov.io/gh/click-contrib/click_params)
 [![Documentation Status](https://readthedocs.org/projects/click_params/badge/?version=latest)](https://click-params.readthedocs.io/en/latest/?badge=latest)
 [![License Apache 2](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0)

@@ -3,6 +3,7 @@
 .coverage
 htmlcov
 .nox
+coverage.xml
 
 # byte-compiled / optimized
 __pycache__

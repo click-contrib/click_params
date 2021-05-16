@@ -6,7 +6,10 @@ site_url: https://click-params.readthedocs.io
 repo_url: https://github.com/click-contrib/click_params/
 edit_uri: tree/master/docs
 
-pages:
+theme:
+  name: material
+
+nav:
   - Home: index.md
   - Installation: installation.md
   - Usage:
@@ -18,9 +21,9 @@ pages:
   - API: api.md
   - Changelog: changelog.md
 
-theme: readthedocs
-
 markdown_extensions:
   - toc:
       permalink: true
   - admonition
+  - codehilite:
+      css_class: highlight
