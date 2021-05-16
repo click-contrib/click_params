@@ -5,7 +5,8 @@ import nox
 
 nox.options.reuse_existing_virtualenvs = True
 
-PYTHON_VERSIONS = ['3.6', '3.7', '3.8', '3.9', 'pypy3']
+PYTHON_VERSIONS = ['pypy3', '3.6', '3.7', '3.8', '3.9', 'pypy3']
+CI_ENVIRONMENT = 'GITHUB_ACTIONS' in os.environ
 
 
 @nox.session(python=PYTHON_VERSIONS[-1])
@@ -25,16 +26,8 @@ def tests(session):
     session.run('pytest')
 
     # we notify codecov when the latest version of python is used
-    if session.python == PYTHON_VERSIONS[-1] and 'APPVEYOR_URL' not in os.environ:
-        session.notify('codecov')
-
-
-@nox.session
-def codecov(session):
-    """Runs codecov command to share coverage information on codecov.io"""
-    session.install('codecov==2.0.15')
-    session.run('coverage', 'xml', '-i')
-    session.run('codecov', '-f', 'coverage.xml')
+    if session.python == PYTHON_VERSIONS[-1] and CI_ENVIRONMENT:
+        session.run('codecov', '-f', 'coverage.xml')
 
 
 @nox.session(python=PYTHON_VERSIONS[-1])
