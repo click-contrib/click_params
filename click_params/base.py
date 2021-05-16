@@ -6,7 +6,12 @@ import click
 from .annotations import Min, Max, Error
 
 
-class BaseParamType(click.ParamType):
+class CustomParamType(click.ParamType):
+    # in click 8, name does not exist, it is just a type annotation, so to not break code, I need this hack
+    name = None
+
+
+class BaseParamType(CustomParamType):
     def __init__(self, _type: Any, errors: Union[Error, Tuple[Error]], name: str = None):
         self._type = _type
         self._errors = errors
@@ -23,7 +28,7 @@ class BaseParamType(click.ParamType):
         return self.name.upper()
 
 
-class ValidatorParamType(click.ParamType):
+class ValidatorParamType(CustomParamType):
     """This class is intended to be inherit by classes using validators functions."""
 
     def __init__(self, callback: Callable, name: str = None):
@@ -40,7 +45,7 @@ class ValidatorParamType(click.ParamType):
         return self.name.upper()
 
 
-class RangeParamType(click.ParamType):
+class RangeParamType(CustomParamType):
 
     def __init__(self, param_type: click.ParamType, minimum: Min = None, maximum: Max = None, clamp: bool = False):
         self._minimum = minimum
@@ -76,7 +81,7 @@ class RangeParamType(click.ParamType):
         return f'{new_name}({repr(self._minimum)}, {repr(self._maximum)})'
 
 
-class ListParamType(click.ParamType):
+class ListParamType(CustomParamType):
 
     def __init__(self, param_type: click.ParamType, separator: str = ',', name: str = None):
         if not isinstance(separator, str):
