@@ -1,5 +1,5 @@
 """Base classes to implement various parameter types"""
-from typing import Union, Tuple, Callable, List, Any
+from typing import Union, Tuple, Callable, List, Any, Optional
 
 import click
 
@@ -8,7 +8,7 @@ from .annotations import Min, Max, Error
 
 class CustomParamType(click.ParamType):
     # in click 8, name does not exist, it is just a type annotation, so to not break code, I need this hack
-    name = None
+    name: Optional[str] = None
 
 
 class BaseParamType(CustomParamType):
