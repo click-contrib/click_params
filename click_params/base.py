@@ -83,12 +83,16 @@ class RangeParamType(CustomParamType):
 
 class ListParamType(CustomParamType):
 
-    def __init__(self, param_type: click.ParamType, separator: str = ',', name: str = None):
+    def __init__(self, param_type: Union[click.ParamType, type], separator: str = ',', name: str = None):
         if not isinstance(separator, str):
             raise TypeError('separator must be a string')
         self._separator = separator
         self._name = name or self.name
-        self._param_type = param_type
+        self._param_type = (
+            param_type
+            if isinstance(param_type, click.ParamType)
+            else click.types.convert_type(param_type)
+        )
         self._error_message = 'These items are not %s: {errors}' % self._name
 
     def _strip_separator(self, expression: str) -> str:

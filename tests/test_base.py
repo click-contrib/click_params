@@ -1,3 +1,4 @@
+import fractions
 from fractions import Fraction
 
 import click
@@ -159,7 +160,9 @@ class TestListParamType:
 
     @pytest.mark.parametrize(('expression', 'param_type', 'name', 'errors'), [
         ('1,foo,2', click.INT, 'integers', ['foo']),
+        ('1,foo,2', int, 'integers', ['foo']),
         ('1.4,bar,2.8', click.FLOAT, 'floating point values', ['bar']),
+        ('1.4,bar,2.8', float, 'floating point values', ['bar']),
         ('1,.2,foo', DECIMAL, 'decimal values', ['foo']),
         ('2,1/0', FRACTION, 'fraction values', ['1/0']),
     ])
@@ -173,9 +176,11 @@ class TestListParamType:
 
     @pytest.mark.parametrize(('expression', 'param_type', 'name', 'values'), [
         ('1,2,3', click.INT, 'integers', [1, 2, 3]),
+        ('1,2,3', int, 'integers', [1, 2, 3]),
         ('1,2.5', click.FLOAT, 'floating point values', [1.0, 2.5]),
+        ('1,2.5', float, 'floating point values', [1.0, 2.5]),
         ('2', FRACTION, 'fraction values', [Fraction(2, 1)]),
-        ('5,1.4,2+1j', COMPLEX, 'complex values', [complex(5, 0), complex(1.4, 0), complex(2, 1)])
+        ('5,1.4,2+1j', COMPLEX, 'complex values', [complex(5, 0), complex(1.4, 0), complex(2, 1)]),
     ])
     def test_should_return_correct_items_when_giving_correct_expression(self, expression, param_type, name, values):
         # noinspection PyTypeChecker
