@@ -4,7 +4,7 @@ import click
 import pytest
 from validators.utils import validator
 
-from click_params.base import RangeParamType, BaseParamType, ValidatorParamType, ListParamType
+from click_params.base import RangeParamType, BaseParamType, ValidatorParamType, ListParamType, UnionParamType
 from click_params.numeric import DECIMAL, FRACTION, COMPLEX
 
 
@@ -181,3 +181,33 @@ class TestListParamType:
         # noinspection PyTypeChecker
         base_list = ListParamType(param_type, name=name)
         assert values == base_list.convert(expression, None, None)
+
+
+class TestUnionParamType:
+    """Test class UnionParamType"""
+
+    @pytest.mark.parametrize(('expression', 'param_types', 'value'), [
+        ('12', (click.INT,), 12),
+        ('auto', (click.Choice(["auto", "full"]), click.INT), "auto"),
+        ('full', (click.Choice(["auto", "full"]), click.INT), "full"),
+        ('12', (click.Choice(["auto", "full"]), click.INT), 12),
+        ('auto', (click.Choice(["auto", "full"]), click.INT, click.FLOAT), "auto"),
+        ('full', (click.Choice(["auto", "full"]), click.INT, click.FLOAT), "full"),
+        ('12', (click.Choice(["auto", "full"]), click.INT, click.FLOAT), 12),
+        ('12.3', (click.Choice(["auto", "full"]), click.INT, click.FLOAT), 12.3)
+    ])
+    def test_parse_expression_successfully(self, expression, param_types, value):
+        union_type = UnionParamType(param_types=param_types)
+        converted_value = union_type.convert(expression, None, None)
+        assert type(value) == type(converted_value)
+        assert value == converted_value
+
+    @pytest.mark.parametrize(('expression', 'param_types'), [
+        ('auto', (click.INT,)),
+        ('12.6', (click.Choice(["auto", "full"]), click.INT)),
+        ('bla', (click.Choice(["auto", "full"]), click.INT, click.FLOAT)),
+    ])
+    def test_parse_expression_unsuccessfully(self, expression, param_types):
+        union_type = UnionParamType(param_types=param_types)
+        with pytest.raises(click.BadParameter):
+            union_type.convert(expression, None, None)
