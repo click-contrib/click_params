@@ -188,13 +188,13 @@ class TestUnionParamType:
 
     @pytest.mark.parametrize(('expression', 'param_types', 'value'), [
         ('12', (click.INT,), 12),
-        ('auto', (click.Choice(["auto", "full"]), click.INT), "auto"),
-        ('full', (click.Choice(["auto", "full"]), click.INT), "full"),
-        ('12', (click.Choice(["auto", "full"]), click.INT), 12),
-        ('auto', (click.Choice(["auto", "full"]), click.INT, click.FLOAT), "auto"),
-        ('full', (click.Choice(["auto", "full"]), click.INT, click.FLOAT), "full"),
-        ('12', (click.Choice(["auto", "full"]), click.INT, click.FLOAT), 12),
-        ('12.3', (click.Choice(["auto", "full"]), click.INT, click.FLOAT), 12.3)
+        ('auto', (click.Choice(['auto', 'full']), click.INT), 'auto'),
+        ('full', (click.Choice(['auto', 'full']), click.INT), 'full'),
+        ('12', (click.Choice(['auto', 'full']), click.INT), 12),
+        ('auto', (click.Choice(['auto', 'full']), click.INT, click.FLOAT), 'auto'),
+        ('full', (click.Choice(['auto', 'full']), click.INT, click.FLOAT), 'full'),
+        ('12', (click.Choice(['auto', 'full']), click.INT, click.FLOAT), 12),
+        ('12.3', (click.Choice(['auto', 'full']), click.INT, click.FLOAT), 12.3)
     ])
     def test_parse_expression_successfully(self, expression, param_types, value):
         union_type = UnionParamType(param_types=param_types)
@@ -204,8 +204,8 @@ class TestUnionParamType:
 
     @pytest.mark.parametrize(('expression', 'param_types'), [
         ('auto', (click.INT,)),
-        ('12.6', (click.Choice(["auto", "full"]), click.INT)),
-        ('bla', (click.Choice(["auto", "full"]), click.INT, click.FLOAT)),
+        ('12.6', (click.Choice(['auto', 'full']), click.INT)),
+        ('bla', (click.Choice(['auto', 'full']), click.INT, click.FLOAT)),
     ])
     def test_parse_expression_unsuccessfully(self, expression, param_types):
         union_type = UnionParamType(param_types=param_types)
