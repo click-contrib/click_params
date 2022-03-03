@@ -177,3 +177,41 @@ has a whitespace, therefore the separator helps to split properly.
 - In the last example the datetime `2019/01/01` fails because the format `%Y/%m/%d` is not one of the defaults used by
 `click.DateTime`. If you want this datetime to be accepted, you need to provide a `formats` argument with the appropriate
 formats.
+
+## UnionParamType
+
+Signature: `UnionParamType(param_types: Sequence[click.ParamType], name: str = None)`
+
+Allows a parameter to accept two kinds of types. This is helpful when an argument or an option should be
+able to accept more than one type.
+
+````python
+import click
+from click_params import UnionParamType
+
+@click.command()
+@click.option('-j', '--jobs', type=UnionParamType([click.Choice(['half', 'all']), click.INT], name="cores number"))
+def cli(jobs):
+    click.echo('Running on {jobs} cores!'.format(jobs=jobs))
+    ...
+````
+
+````bash
+$ python cli.py -j 5
+Running on 5 cores
+
+$ python cli.py -j all
+Running on all cores
+
+$ python cli.py -j 2.5
+Error: 2.5 is not a valid cores number
+
+$ python cli.py -j third
+Error: third is not a valid cores number
+````
+
+Two remarks compared to the last script.
+
+- The order of parameter types in the union is the order click will try to parse the value.
+- In the last two examples click was unable to parse because they were neither an integer or a string from allowed 
+choices
