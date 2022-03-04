@@ -5,7 +5,7 @@ import nox
 
 nox.options.reuse_existing_virtualenvs = True
 
-PYTHON_VERSIONS = ['pypy3', '3.6', '3.7', '3.8', '3.9', 'pypy3']
+PYTHON_VERSIONS = ['pypy3', '3.6', '3.7', '3.8', '3.9', '3.10']
 CI_ENVIRONMENT = 'GITHUB_ACTIONS' in os.environ
 
 
