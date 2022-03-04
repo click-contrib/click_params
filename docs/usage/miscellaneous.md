@@ -182,8 +182,7 @@ formats.
 
 Signature: `UnionParamType(param_types: Sequence[click.ParamType], name: str = None)`
 
-Allows a parameter to accept two kinds of types. This is helpful when an argument or an option should be
-able to accept more than one type.
+Allows an option or an argument to accept at least two kinds of types.
 
 ````python
 import click
@@ -213,5 +212,5 @@ Error: third is not a valid cores number
 Two remarks compared to the last script.
 
 - The order of parameter types in the union is the order click will try to parse the value.
-- In the last two examples click was unable to parse because they were neither an integer or a string from allowed 
-choices
+- In the last two examples click was unable to parse because they were neither an integer nor a string from allowed 
+choices.
