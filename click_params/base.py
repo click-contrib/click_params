@@ -29,7 +29,7 @@ class BaseParamType(CustomParamType):
 
 
 class ValidatorParamType(CustomParamType):
-    """This class is intended to be inherit by classes using validators functions."""
+    """This class is intended to inherit by classes using validators functions."""
 
     def __init__(self, callback: Callable, name: str = None):
         self._callback = callback

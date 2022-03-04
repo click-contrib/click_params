@@ -183,8 +183,15 @@ class TestListParamType:
         assert values == base_list.convert(expression, None, None)
 
 
+class CoreNumber(UnionParamType):
+    name = 'core number'
+
+
 class TestUnionParamType:
     """Test class UnionParamType"""
+
+    def test_class_representation_is_correct(self):
+        assert 'CORE NUMBER' == repr(CoreNumber(param_types=(click.INT, click.Choice(['all', 'half']))))
 
     @pytest.mark.parametrize(('expression', 'param_types', 'value'), [
         ('12', (click.INT,), 12),
