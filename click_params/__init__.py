@@ -21,7 +21,7 @@ from .test_utils import assert_list_in_output, assert_equals_output, assert_in_o
 
 __all__ = [
     # base
-    'BaseParamType', 'ValidatorParamType', 'RangeParamType', 'ListParamType', "UnionParamType",
+    'BaseParamType', 'ValidatorParamType', 'RangeParamType', 'ListParamType', 'UnionParamType',
 
     # domain
     'DOMAIN', 'PUBLIC_URL', 'URL', 'EmailParamType', 'EMAIL', 'SLUG', 'DomainListParamType', 'PublicUrlListParamType',
