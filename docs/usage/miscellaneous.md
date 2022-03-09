@@ -214,3 +214,41 @@ Two remarks compared to the last script.
 - The order of parameter types in the union is the order click will try to parse the value.
 - In the last two examples click was unable to parse because they were neither an integer nor a string from allowed 
 choices.
+
+## EnumParamType
+
+Signature: `EnumParamType(enum_type: Type[enum.Enum], transform_upper: bool = True)`
+
+Converts string to an enum value. if `transform_upper` is set to be true, convert name
+to uppercase before getting the enum value.
+
+````python
+import enum
+import click
+from click_params import EnumParamType
+
+
+class MyEnum(enum.Enum):
+
+    ONE = "one"
+    TWO = "two"
+    THREE = "three"
+    ONE_ALIAS = ONE
+
+
+@click.command()
+@click.option("-c", "--choice", type=EnumParamType(MyEnum))
+def f(choice):
+    click.echo("You have chosen {choice}".format(choice=choice))
+````
+
+````bash
+$ python cli.py -c one
+You have chosen MyEnum.ONE
+
+$ python cli.py -c three
+You have chosen MyEnum.Three
+
+$ python cli.py -c unreal
+Error: Unknown MyEnum value: UNREAL
+````

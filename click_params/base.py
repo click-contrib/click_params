@@ -1,5 +1,6 @@
 """Base classes to implement various parameter types"""
-from typing import Union, Tuple, Callable, List, Any, Optional, Sequence
+import enum
+from typing import Union, Tuple, Callable, List, Any, Optional, Sequence, Type
 
 import click
 
@@ -139,3 +140,33 @@ class UnionParamType(CustomParamType):
 
     def __repr__(self):
         return self.name.upper()
+
+
+class EnumParamType(CustomParamType):
+
+    def __init__(self, enum_type: Type[enum.Enum], transform_upper: bool = True):
+        self.enum_type = enum_type
+        self.transform_upper = transform_upper
+
+    def convert(self, value, param, ctx):
+        if self.transform_upper:
+            value = value.upper()
+        try:
+            return self.enum_type[value]
+        except KeyError:
+            raise click.BadParameter(
+                "Unknown {enum_type} value: {value}".format(
+                    enum_type=self.enum_type.__name__,
+                    value=value
+                )
+            )
+
+    def get_metavar(self, param):
+        choices_str = '|'.join([element.name for element in self.enum_type])
+
+        # Use curly braces to indicate a required argument.
+        if param.required and param.param_type_name == 'argument':
+            return '{{{choices_str}}}'.format(choices_str=choices_str)
+
+        # Use square braces to indicate an option or optional argument.
+        return '[{choices_str}]'.format(choices_str=choices_str)

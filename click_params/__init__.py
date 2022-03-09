@@ -1,6 +1,6 @@
 __version__ = '0.2.0'
 
-from .base import BaseParamType, ValidatorParamType, RangeParamType, ListParamType, UnionParamType
+from .base import BaseParamType, ValidatorParamType, RangeParamType, ListParamType, UnionParamType, EnumParamType
 from .domain import (
     DOMAIN, PUBLIC_URL, URL, EMAIL, SLUG, EmailParamType, DomainListParamType, PublicUrlListParamType,
     UrlListParamType, EmailListParamType, SlugListParamType
@@ -21,7 +21,7 @@ from .test_utils import assert_list_in_output, assert_equals_output, assert_in_o
 
 __all__ = [
     # base
-    'BaseParamType', 'ValidatorParamType', 'RangeParamType', 'ListParamType', 'UnionParamType',
+    'BaseParamType', 'ValidatorParamType', 'RangeParamType', 'ListParamType', 'UnionParamType', 'EnumParamType',
 
     # domain
     'DOMAIN', 'PUBLIC_URL', 'URL', 'EmailParamType', 'EMAIL', 'SLUG', 'DomainListParamType', 'PublicUrlListParamType',
