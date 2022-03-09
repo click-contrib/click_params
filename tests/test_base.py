@@ -1,10 +1,12 @@
+import enum
 from fractions import Fraction
 
 import click
 import pytest
 from validators.utils import validator
 
-from click_params.base import RangeParamType, BaseParamType, ValidatorParamType, ListParamType, UnionParamType
+from click_params.base import RangeParamType, BaseParamType, ValidatorParamType, ListParamType, UnionParamType, \
+    EnumParamType
 from click_params.numeric import DECIMAL, FRACTION, COMPLEX
 
 
@@ -218,3 +220,48 @@ class TestUnionParamType:
         union_type = UnionParamType(param_types=param_types)
         with pytest.raises(click.BadParameter):
             union_type.convert(expression, None, None)
+
+
+class MyEnum(enum.Enum):
+
+    ONE = 1
+    TWO = 2
+    THREE = 3
+    ONE_ALIAS = 1
+
+
+class TestEnumParamType:
+    """Test class EnumParamType"""
+
+    @pytest.mark.parametrize(('expression', 'transform_upper', 'value'), [
+        ('one', True, MyEnum.ONE),
+        ('One', True, MyEnum.ONE),
+        ('ONE', True, MyEnum.ONE),
+        ('ONE', False, MyEnum.ONE),
+        ('two', True, MyEnum.TWO),
+        ('TWO', True, MyEnum.TWO),
+        ('TWO', False, MyEnum.TWO),
+        ('three', True, MyEnum.THREE),
+        ('THREE', True, MyEnum.THREE),
+        ('THREE', False, MyEnum.THREE),
+        ('one_alias', True, MyEnum.ONE),
+    ])
+    def test_parse_expression_successfully(self, expression, transform_upper, value):
+        enum_type = EnumParamType(MyEnum, transform_upper=transform_upper)
+        converted_value = enum_type.convert(expression, None, None)
+        assert type(value) == MyEnum
+        assert value == converted_value
+
+    @pytest.mark.parametrize(('expression', 'transform_upper'), [
+        ('one', False),
+        ('One', False),
+        ('two', False),
+        ('three', False),
+        ('one_alias', False),
+        ('unreal', True),
+        ('unreal', False),
+    ])
+    def test_parse_expression_unsuccessfully(self, expression, transform_upper):
+        enum_type = EnumParamType(MyEnum, transform_upper=transform_upper)
+        with pytest.raises(click.BadParameter):
+            enum_type.convert(expression, None, None)
