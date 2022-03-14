@@ -5,7 +5,7 @@ import nox
 
 nox.options.reuse_existing_virtualenvs = True
 
-PYTHON_VERSIONS = ['pypy3', '3.6', '3.7', '3.8', '3.9', '3.10']
+PYTHON_VERSIONS = ['pypy3', '3.7', '3.8', '3.9', '3.10']
 CI_ENVIRONMENT = 'GITHUB_ACTIONS' in os.environ
 
 
@@ -37,7 +37,7 @@ def docs(session):
     session.run('mkdocs', 'build', '--clean')
 
 
-@nox.session(python=PYTHON_VERSIONS[-1])
+@nox.session(python=False)
 def deploy(session):
     """
     Deploys on pypi.
