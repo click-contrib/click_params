@@ -20,7 +20,7 @@ and I ended adding more parameter types that can be useful for various scripts i
 pip install click-params
 ```
 
-click-params starts working from **python 3.6**. It has a few dependencies:
+click-params starts working from **python 3.7**. It has a few dependencies:
 - [click](https://click.palletsprojects.com/en/7.x/) >= 7.0
 - [validators](https://validators.readthedocs.io/en/latest/)
 

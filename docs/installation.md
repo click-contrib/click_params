@@ -14,4 +14,4 @@ The project has a few dependencies:
 - [validators](https://validators.readthedocs.io/en/latest/)
 
 !!! note
-    click-params works starting from **python 3.6**
+    click-params works starting from **python 3.7**
