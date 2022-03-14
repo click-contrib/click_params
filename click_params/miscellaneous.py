@@ -1,11 +1,11 @@
 """Parameter types that do not fit into other modules"""
 import json
-from typing import Callable, List
+from typing import Callable, List, Sequence
 
 import click
 from validators import mac_address
 
-from .base import ValidatorParamType, ListParamType
+from .base import ValidatorParamType, ListParamType, CustomParamType
 
 
 class JsonParamType(click.ParamType):
@@ -71,6 +71,25 @@ class DateTimeListParamType(ListParamType):
 
     def __init__(self, separator: str = ',', formats: List[str] = None):
         super().__init__(click.DateTime(formats=formats), separator=separator, name='datetimes')
+
+
+class UnionParamType(CustomParamType):
+
+    def __init__(self, param_types: Sequence[click.ParamType], name: str = None):
+        self._name = name or self.name
+        self._param_types = param_types
+        self._error_message = '{value} is not a valid %s' % self._name
+
+    def convert(self, value, param, ctx):
+        for param_type in self._param_types:
+            try:
+                return param_type.convert(value, param, ctx)
+            except click.BadParameter:
+                continue
+        self.fail(self._error_message.format(value=value))
+
+    def __repr__(self):
+        return self.name.upper()
 
 
 JSON = JsonParamType()

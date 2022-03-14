@@ -1,5 +1,5 @@
 """Base classes to implement various parameter types"""
-from typing import Union, Tuple, Callable, List, Any, Optional, Sequence
+from typing import Union, Tuple, Callable, List, Any, Optional
 
 import click
 
@@ -117,25 +117,6 @@ class ListParamType(CustomParamType):
             self.fail(self._error_message.format(errors=errors), param, ctx)
 
         return converted_list
-
-    def __repr__(self):
-        return self.name.upper()
-
-
-class UnionParamType(CustomParamType):
-
-    def __init__(self, param_types: Sequence[click.ParamType], name: str = None):
-        self._name = name or self.name
-        self._param_types = param_types
-        self._error_message = '{value} is not a valid %s' % self._name
-
-    def convert(self, value, param, ctx):
-        for param_type in self._param_types:
-            try:
-                return param_type.convert(value, param, ctx)
-            except click.BadParameter:
-                continue
-        self.fail(self._error_message.format(value=value))
 
     def __repr__(self):
         return self.name.upper()

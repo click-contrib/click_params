@@ -5,7 +5,7 @@ import pytest
 
 from click_params.miscellaneous import (
     JSON, MAC_ADDRESS, JsonParamType, StringListParamType, MacAddressListParamType, UUIDListParamType,
-    DateTimeListParamType
+    DateTimeListParamType, UnionParamType
 )
 
 from tests.helpers import assert_in_output, assert_equals_output
@@ -117,3 +117,39 @@ class TestJsonParamType:
 
         loads_mock.assert_called_once_with(2, cls=None, object_hook=None, parse_float=Decimal, parse_int=int,
                                            parse_constant=Decimal, object_pairs_hook=None)
+
+
+class TestUnionParamType:
+    """Test class UnionParamType"""
+
+    def test_class_representation_is_correct(self):
+        class CoreNumber(UnionParamType):
+            name = 'core number'
+
+        assert 'CORE NUMBER' == repr(CoreNumber(param_types=(click.INT, click.Choice(['all', 'half']))))
+
+    @pytest.mark.parametrize(('expression', 'param_types', 'value'), [
+        ('12', (click.INT,), 12),
+        ('auto', (click.Choice(['auto', 'full']), click.INT), 'auto'),
+        ('full', (click.Choice(['auto', 'full']), click.INT), 'full'),
+        ('12', (click.Choice(['auto', 'full']), click.INT), 12),
+        ('auto', (click.Choice(['auto', 'full']), click.INT, click.FLOAT), 'auto'),
+        ('full', (click.Choice(['auto', 'full']), click.INT, click.FLOAT), 'full'),
+        ('12', (click.Choice(['auto', 'full']), click.INT, click.FLOAT), 12),
+        ('12.3', (click.Choice(['auto', 'full']), click.INT, click.FLOAT), 12.3)
+    ])
+    def test_parse_expression_successfully(self, expression, param_types, value):
+        union_type = UnionParamType(param_types=param_types)
+        converted_value = union_type.convert(expression, None, None)
+        assert type(value) == type(converted_value)
+        assert value == converted_value
+
+    @pytest.mark.parametrize(('expression', 'param_types'), [
+        ('auto', (click.INT,)),
+        ('12.6', (click.Choice(['auto', 'full']), click.INT)),
+        ('bla', (click.Choice(['auto', 'full']), click.INT, click.FLOAT)),
+    ])
+    def test_parse_expression_unsuccessfully(self, expression, param_types):
+        union_type = UnionParamType(param_types=param_types)
+        with pytest.raises(click.BadParameter):
+            union_type.convert(expression, None, None)

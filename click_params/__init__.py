@@ -1,12 +1,13 @@
 __version__ = '0.2.0'
 
-from .base import BaseParamType, ValidatorParamType, RangeParamType, ListParamType, UnionParamType
+from .base import BaseParamType, ValidatorParamType, RangeParamType, ListParamType
 from .domain import (
     DOMAIN, PUBLIC_URL, URL, EMAIL, SLUG, EmailParamType, DomainListParamType, PublicUrlListParamType,
     UrlListParamType, EmailListParamType, SlugListParamType
 )
 from .miscellaneous import (
-    JSON, MAC_ADDRESS, StringListParamType, MacAddressListParamType, UUIDListParamType, DateTimeListParamType
+    JSON, MAC_ADDRESS, StringListParamType, MacAddressListParamType, UUIDListParamType, DateTimeListParamType,
+    UnionParamType
 )
 from .network import (
     IP_ADDRESS, IPV4_ADDRESS, IPV6_ADDRESS, IP_NETWORK, IPV4_NETWORK, IPV6_NETWORK, Ipv4AddressRange, Ipv6AddressRange,
@@ -21,7 +22,7 @@ from .test_utils import assert_list_in_output, assert_equals_output, assert_in_o
 
 __all__ = [
     # base
-    'BaseParamType', 'ValidatorParamType', 'RangeParamType', 'ListParamType', 'UnionParamType',
+    'BaseParamType', 'ValidatorParamType', 'RangeParamType', 'ListParamType',
 
     # domain
     'DOMAIN', 'PUBLIC_URL', 'URL', 'EmailParamType', 'EMAIL', 'SLUG', 'DomainListParamType', 'PublicUrlListParamType',
@@ -29,7 +30,7 @@ __all__ = [
 
     # miscellaneous
     'JSON', 'MAC_ADDRESS', 'StringListParamType', 'MacAddressListParamType', 'UUIDListParamType',
-    'DateTimeListParamType',
+    'DateTimeListParamType', 'UnionParamType',
 
     # network
     'IP_ADDRESS', 'IPV6_ADDRESS', 'IPV4_ADDRESS', 'IP_NETWORK', 'IPV4_NETWORK', 'IPV6_NETWORK', 'Ipv4AddressRange',
