@@ -140,10 +140,8 @@ class TestListParamType:
         {'separator': ';'}
     ])
     def test_should_not_raise_error_when_instantiating_with_a_string(self, separator):
-        try:
-            ListParamType(click.INT, **separator)
-        except TypeError:
-            pytest.fail(f'unexpected fail with separator = {separator}')
+        base_list = ListParamType(click.INT, **separator)
+        assert not base_list._convert_called
 
     # we test method _strip_separator
 
@@ -181,3 +179,9 @@ class TestListParamType:
         # noinspection PyTypeChecker
         base_list = ListParamType(param_type, name=name)
         assert values == base_list.convert(expression, None, None)
+
+        # this is to test the scenario when a user is prompted for a value, it seems that
+        # the convert method is called more than once
+        # after the first call, all subsequent calls will have the converted value as first argument
+        assert base_list._convert_called
+        assert values == base_list.convert(values, None, None)

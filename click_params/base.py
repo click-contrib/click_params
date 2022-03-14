@@ -89,6 +89,7 @@ class ListParamType(CustomParamType):
         self._separator = separator
         self._name = name or self.name
         self._param_type = param_type
+        self._convert_called = False
         self._error_message = 'These items are not %s: {errors}' % self._name
 
     def _strip_separator(self, expression: str) -> str:
@@ -111,11 +112,18 @@ class ListParamType(CustomParamType):
         return errors, converted_items
 
     def convert(self, value, param, ctx):
+        # For an unknown reason, when a user is prompted for a value using "prompt" argument from click.option
+        # the convert method seems to be called more than once, so this is necessary to avoid an error
+        # when calling self._strip_separator below since the value passed will be already converted to a list
+        if self._convert_called:
+            return value
+
         value = self._strip_separator(value)
         errors, converted_list = self._convert_expression_to_list(value)
         if errors:
             self.fail(self._error_message.format(errors=errors), param, ctx)
 
+        self._convert_called = True
         return converted_list
 
     def __repr__(self):
