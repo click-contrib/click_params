@@ -5,6 +5,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2022-03-14
+
+## Fixed
+
+- An issue when a user is prompted a value for a type inheriting `ListParamType`.
+
 ### Removed
 
 - Support for python3.6
