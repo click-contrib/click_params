@@ -138,7 +138,7 @@ class TestUnionParamType:
         ('12', (click.Choice(['auto', 'full']), click.INT, click.FLOAT), 12),
         ('12.3', (click.Choice(['auto', 'full']), click.INT, click.FLOAT), 12.3)
     ])
-    def test_parse_expression_successfully(self, expression, param_types, value):
+    def test_should_parse_expression_successfully(self, expression, param_types, value):
         union_type = UnionParamType(param_types=param_types)
         converted_value = union_type.convert(expression, None, None)
         assert type(value) == type(converted_value)
@@ -149,7 +149,7 @@ class TestUnionParamType:
         ('12.6', (click.Choice(['auto', 'full']), click.INT)),
         ('bla', (click.Choice(['auto', 'full']), click.INT, click.FLOAT)),
     ])
-    def test_parse_expression_unsuccessfully(self, expression, param_types):
+    def test_should_parse_expression_unsuccessfully(self, expression, param_types):
         union_type = UnionParamType(param_types=param_types)
         with pytest.raises(click.BadParameter):
             union_type.convert(expression, None, None)

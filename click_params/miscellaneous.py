@@ -54,10 +54,6 @@ class StringListParamType(ListParamType):
     def __init__(self, separator: str = ','):
         super().__init__(click.STRING, separator)
 
-    def convert(self, value, param, ctx):
-        value = self._strip_separator(value)
-        return value.split(self._separator)
-
 
 class UUIDListParamType(ListParamType):
     name = 'uuid list'
