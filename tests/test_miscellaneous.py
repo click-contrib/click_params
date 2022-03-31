@@ -107,6 +107,15 @@ def test_should_print_correct_output_when_giving_correct_option_for_list_types(r
     assert_equals_output(0, expected_output, result)
 
 
+@pytest.mark.parametrize("param_type", [
+    StringListParamType, MacAddressListParamType, UUIDListParamType, DateTimeListParamType
+])
+def test_miscellaneous_list_param_types_ignore_empty_string(param_type):
+    misc_list_type = param_type(ignore_empty=True)
+
+    assert misc_list_type.convert("", None, None) == []
+
+
 class TestJsonParamType:
     """Tests JsonParamType specific cases"""
 
