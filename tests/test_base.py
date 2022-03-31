@@ -185,3 +185,14 @@ class TestListParamType:
         # after the first call, all subsequent calls will have the converted value as first argument
         assert base_list._convert_called
         assert values == base_list.convert(values, None, None)
+
+    @pytest.mark.parametrize('param_type', [
+        click.INT, click.FLOAT, click.STRING, FRACTION, COMPLEX
+    ])
+    def test_should_return_empty_list_with_ignore_empty_string(self, param_type):
+        base_list = ListParamType(param_type=param_type, ignore_empty=True)
+        assert base_list.convert("", None, None) == []
+
+    def test_should_return_non_empty_list_without_ignore_empty_string(self):
+        base_list = ListParamType(param_type=click.STRING)
+        assert base_list.convert("", None, None) == ['']
