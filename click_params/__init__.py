@@ -29,7 +29,7 @@ __all__ = [
     'UrlListParamType', 'EmailListParamType', 'SlugListParamType',
 
     # miscellaneous
-    'JSON', 'MAC_ADDRESS', 'StringListParamType', 'MacAddressListParamType', 'UUIDListParamType',
+    'JSON', 'MAC_ADDRESS', 'ChoiceListParamType', 'StringListParamType', 'MacAddressListParamType', 'UUIDListParamType',
     'DateTimeListParamType', 'UnionParamType',
 
     # network
