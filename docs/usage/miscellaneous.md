@@ -113,6 +113,36 @@ Your list of preferred fruits:
 - strawberries
 ````
 
+## ChoiceListParamType
+
+Signature: `ChoiceListParamType(choices: Sequence[str], separator: str = ',', case_sensitive: bool = True)`
+
+Converts given string to a list of choices.
+
+````python
+import click
+from click_params import ChoiceListParamType
+
+@click.command()
+@click.option(
+    '-f', '--fruits',
+    type=ChoiceListParamType(['apple', 'banana', 'watermelon'], separator=' '),
+    help='list of fruits separated by a white space')
+def cli(fruits):
+    click.echo('Your list of preferred fruits:')
+    for fruit in fruits:
+        click.echo(f'- {fruit}')
+````
+
+````bash
+$ python cli.py --fruits='apple banana'
+Your list of preferred fruits:
+- apple
+- banana
+$ python cli.py --fruits='apple lemon'
+Error: Invalid value for '--fruits': invalid choice: lemon. (choose from apple, banana, watermelon)
+````
+
 ## UUIDListParamType
 
 Signature: `UUIDListParamType(separator: str = ',', ignore_empty: bool = False)`

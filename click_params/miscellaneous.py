@@ -55,6 +55,13 @@ class StringListParamType(ListParamType):
         super().__init__(click.STRING, separator, ignore_empty=ignore_empty)
 
 
+class ChoiceListParamType(ListParamType):
+    name = 'choice list'
+
+    def __init__(self, choices: Sequence[str], separator: str = ',', case_sensitive: bool = True):
+        super().__init__(click.Choice(choices, case_sensitive=case_sensitive), separator)
+
+
 class UUIDListParamType(ListParamType):
     name = 'uuid list'
 
