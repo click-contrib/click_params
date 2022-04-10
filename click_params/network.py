@@ -14,8 +14,8 @@ class IpAddress(BaseParamType):
 class IpAddressListParamType(ListParamType):
     name = 'ip address list'
 
-    def __init__(self, separator: str = ','):
-        super().__init__(IP_ADDRESS, separator=separator, name='ip addresses')
+    def __init__(self, separator: str = ',', ignore_empty: bool = False):
+        super().__init__(IP_ADDRESS, separator=separator, name='ip addresses', ignore_empty=ignore_empty)
 
 
 class Ipv4Address(BaseParamType):
@@ -39,8 +39,8 @@ class Ipv4AddressRange(RangeParamType):
 class Ipv4AddressListParamType(ListParamType):
     name = 'ipv4 address list'
 
-    def __init__(self, separator: str = ','):
-        super().__init__(IPV4_ADDRESS, separator=separator, name='ipv4 addresses')
+    def __init__(self, separator: str = ',', ignore_empty: bool = False):
+        super().__init__(IPV4_ADDRESS, separator=separator, name='ipv4 addresses', ignore_empty=ignore_empty)
 
 
 class Ipv6Address(BaseParamType):
@@ -64,8 +64,8 @@ class Ipv6AddressRange(RangeParamType):
 class Ipv6AddressListParamType(ListParamType):
     name = 'ipv6 address list'
 
-    def __init__(self, separator: str = ','):
-        super().__init__(IPV6_ADDRESS, separator=separator, name='ipv6 addresses')
+    def __init__(self, separator: str = ',', ignore_empty: bool = False):
+        super().__init__(IPV6_ADDRESS, separator=separator, name='ipv6 addresses', ignore_empty=ignore_empty)
 
 
 class IpNetwork(BaseParamType):
@@ -78,8 +78,8 @@ class IpNetwork(BaseParamType):
 class IpNetworkListParamType(ListParamType):
     name = 'ip network list'
 
-    def __init__(self, separator: str = ','):
-        super().__init__(IP_NETWORK, separator=separator, name='ip networks')
+    def __init__(self, separator: str = ',', ignore_empty: bool = False):
+        super().__init__(IP_NETWORK, separator=separator, name='ip networks', ignore_empty=ignore_empty)
 
 
 class Ipv4Network(BaseParamType):
@@ -92,8 +92,8 @@ class Ipv4Network(BaseParamType):
 class Ipv4NetworkListParamType(ListParamType):
     name = 'ipv4 network list'
 
-    def __init__(self, separator: str = ','):
-        super().__init__(IPV4_NETWORK, separator=separator, name='ipv4 networks')
+    def __init__(self, separator: str = ',', ignore_empty: bool = False):
+        super().__init__(IPV4_NETWORK, separator=separator, name='ipv4 networks', ignore_empty=ignore_empty)
 
 
 class Ipv6Network(BaseParamType):
@@ -106,8 +106,8 @@ class Ipv6Network(BaseParamType):
 class Ipv6NetworkListParamType(ListParamType):
     name = 'ipv6 network list'
 
-    def __init__(self, separator: str = ','):
-        super().__init__(IPV6_NETWORK, separator=separator, name='ipv6 networks')
+    def __init__(self, separator: str = ',', ignore_empty: bool = False):
+        super().__init__(IPV6_NETWORK, separator=separator, name='ipv6 networks', ignore_empty=ignore_empty)
 
 
 IP_ADDRESS = IpAddress()

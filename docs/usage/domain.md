@@ -42,7 +42,7 @@ Error: hello is not a valid domain name
 
 ## DomainListParamType
 
-Signature: `DomainListParamType(separator: str = ',')`
+Signature: `DomainListParamType(separator: str = ',', ignore_empty: bool = False)`
 
 Validates and returns a list of domain names.
 
@@ -100,7 +100,7 @@ Error: hello is not a valid public url
 
 ## PublicUrlListParamType
 
-Signature: `PublicUrlListParamType(separator: str = ',')`
+Signature: `PublicUrlListParamType(separator: str = ',', ignore_empty: bool = False)`
 
 Validates and returns a list of public urls.
 
@@ -150,7 +150,7 @@ Error: hello is not a valid public url
 
 ## UrlListParamType
 
-Signature: `UrlListParamType(separator: str = ',')`
+Signature: `UrlListParamType(separator: str = ',', ignore_empty: bool = False)`
 
 It is like [PublicUrlListParamType](#publicurllistparamtype) but accepts private ip addresses.
 
@@ -205,7 +205,7 @@ Error: roo@foo is not a valid email address
 
 ## EmailListParamType
 
-Signature: `EmailListParamType(separator: str = ',')`
+Signature: `EmailListParamType(separator: str = ',', ignore_empty: bool = False)`
 
 Validates and returns a list of email addresses.
 
@@ -255,7 +255,7 @@ Error: foo.bar is not a valid slug
 
 ## SlugListParamType
 
-Signature: `SlugListParamType(separator: str = ',')`
+Signature: `SlugListParamType(separator: str = ',', ignore_empty: bool = False)`
 
 Validates and returns a list of slugs.
 

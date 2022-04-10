@@ -17,8 +17,8 @@ class DomainParamType(ValidatorParamType):
 class DomainListParamType(ListParamType):
     name = 'domain name list'
 
-    def __init__(self, separator: str = ','):
-        super().__init__(DOMAIN, separator=separator, name='domain names')
+    def __init__(self, separator: str = ',', ignore_empty: bool = False):
+        super().__init__(DOMAIN, separator=separator, name='domain names', ignore_empty=ignore_empty)
 
 
 class UrlParamType(ValidatorParamType):
@@ -31,15 +31,15 @@ class UrlParamType(ValidatorParamType):
 class UrlListParamType(ListParamType):
     name = 'url list'
 
-    def __init__(self, separator: str = ','):
-        super().__init__(URL, separator=separator, name='urls')
+    def __init__(self, separator: str = ',', ignore_empty: bool = False):
+        super().__init__(URL, separator=separator, name='urls', ignore_empty=ignore_empty)
 
 
 class PublicUrlListParamType(ListParamType):
     name = 'url list'
 
-    def __init__(self, separator: str = ','):
-        super().__init__(PUBLIC_URL, separator=separator, name='urls')
+    def __init__(self, separator: str = ',', ignore_empty: bool = False):
+        super().__init__(PUBLIC_URL, separator=separator, name='urls', ignore_empty=ignore_empty)
 
 
 class EmailParamType(ValidatorParamType):
@@ -52,8 +52,8 @@ class EmailParamType(ValidatorParamType):
 class EmailListParamType(ListParamType):
     name = 'email address list'
 
-    def __init__(self, separator: str = ','):
-        super().__init__(EMAIL, separator=separator, name='email addresses')
+    def __init__(self, separator: str = ',', ignore_empty: bool = False):
+        super().__init__(EMAIL, separator=separator, name='email addresses', ignore_empty=ignore_empty)
 
 
 class SlugParamType(ValidatorParamType):
@@ -66,8 +66,8 @@ class SlugParamType(ValidatorParamType):
 class SlugListParamType(ListParamType):
     name = 'slug list'
 
-    def __init__(self, separator: str = ','):
-        super().__init__(SLUG, separator=separator, name='slugs')
+    def __init__(self, separator: str = ',', ignore_empty: bool = False):
+        super().__init__(SLUG, separator=separator, name='slugs', ignore_empty=ignore_empty)
 
 
 DOMAIN = DomainParamType()

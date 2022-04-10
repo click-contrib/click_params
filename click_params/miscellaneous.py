@@ -44,29 +44,31 @@ class MacAddressParamType(ValidatorParamType):
 class MacAddressListParamType(ListParamType):
     name = 'mac address list'
 
-    def __init__(self, separator: str = ','):
-        super().__init__(MAC_ADDRESS, separator=separator, name='mac addresses')
+    def __init__(self, separator: str = ',', ignore_empty: bool = False):
+        super().__init__(MAC_ADDRESS, separator=separator, name='mac addresses', ignore_empty=ignore_empty)
 
 
 class StringListParamType(ListParamType):
     name = 'string list'
 
-    def __init__(self, separator: str = ','):
-        super().__init__(click.STRING, separator)
+    def __init__(self, separator: str = ',', ignore_empty: bool = False):
+        super().__init__(click.STRING, separator, ignore_empty=ignore_empty)
 
 
 class UUIDListParamType(ListParamType):
     name = 'uuid list'
 
-    def __init__(self, separator: str = ','):
-        super().__init__(click.UUID, separator=separator, name='uuid')
+    def __init__(self, separator: str = ',', ignore_empty: bool = False):
+        super().__init__(click.UUID, separator=separator, name='uuid', ignore_empty=ignore_empty)
 
 
 class DateTimeListParamType(ListParamType):
     name = 'datetime list'
 
-    def __init__(self, separator: str = ',', formats: List[str] = None):
-        super().__init__(click.DateTime(formats=formats), separator=separator, name='datetimes')
+    def __init__(self, separator: str = ',', formats: List[str] = None, ignore_empty: bool = False):
+        super().__init__(
+            click.DateTime(formats=formats), separator=separator, name='datetimes', ignore_empty=ignore_empty
+        )
 
 
 class UnionParamType(CustomParamType):

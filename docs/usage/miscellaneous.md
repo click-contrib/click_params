@@ -59,7 +59,7 @@ Error: 00:00:00:00:00 is not a valid mac address
 
 ## MacAddressListParamType
 
-Signature: `MacAddressListParamType(separator: str = ',')`
+Signature: `MacAddressListParamType(separator: str = ',', ignore_empty: bool = False)`
 
 Validates and returns a list of mac addresses
 
@@ -88,7 +88,7 @@ Error: These items are not mac addresses: ['foo']
 
 ## StringListParamType
 
-Signature: `StringListParamType(separator: str = ',')`
+Signature: `StringListParamType(separator: str = ',', ignore_empty: bool = False)`
 
 Converts given string to a list of strings.
 
@@ -115,7 +115,7 @@ Your list of preferred fruits:
 
 ## UUIDListParamType
 
-Signature: `UUIDListParamType(separator: str = ',')`
+Signature: `UUIDListParamType(separator: str = ',', ignore_empty: bool = False)`
 
 Converts string to a list of `uuid.UUID` objects.
 
@@ -143,7 +143,7 @@ Error: These items are not uuid: ['452-45', '410']
 
 ## DateTimeParamListType
 
-Signature: `DateTimeParamListType(separator: str = ',', formats: List[str] = None)`
+Signature: `DateTimeParamListType(separator: str = ',', ignore_empty: bool = False, formats: List[str] = None)`
 
 Converts string to a list of `datetime.datetime` objects. Unlike other classes, this class has a `formats` parameter
 that is exactly the same as the one passed to the constructor of `click.DateTime` class.

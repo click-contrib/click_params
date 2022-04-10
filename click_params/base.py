@@ -83,7 +83,13 @@ class RangeParamType(CustomParamType):
 
 class ListParamType(CustomParamType):
 
-    def __init__(self, param_type: click.ParamType, separator: str = ',', name: str = None):
+    def __init__(
+        self,
+        param_type: click.ParamType,
+        separator: str = ',',
+        name: str = None,
+        ignore_empty: bool = False
+    ):
         if not isinstance(separator, str):
             raise TypeError('separator must be a string')
         self._separator = separator
@@ -91,6 +97,7 @@ class ListParamType(CustomParamType):
         self._param_type = param_type
         self._convert_called = False
         self._error_message = 'These items are not %s: {errors}' % self._name
+        self._ignore_empty = ignore_empty
 
     def _strip_separator(self, expression: str) -> str:
         """Returns a new expression with heading and trailing separator character removed."""
@@ -118,6 +125,8 @@ class ListParamType(CustomParamType):
         if self._convert_called:
             return value
 
+        if self._ignore_empty and value == "":
+            return []
         value = self._strip_separator(value)
         errors, converted_list = self._convert_expression_to_list(value)
         if errors:
