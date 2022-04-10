@@ -6,8 +6,8 @@ from .domain import (
     UrlListParamType, EmailListParamType, SlugListParamType
 )
 from .miscellaneous import (
-    JSON, MAC_ADDRESS, StringListParamType, MacAddressListParamType, UUIDListParamType, DateTimeListParamType,
-    UnionParamType
+    JSON, MAC_ADDRESS, StringListParamType, ChoiceListParamType, MacAddressListParamType, UUIDListParamType,
+    DateTimeListParamType, UnionParamType
 )
 from .network import (
     IP_ADDRESS, IPV4_ADDRESS, IPV6_ADDRESS, IP_NETWORK, IPV4_NETWORK, IPV6_NETWORK, Ipv4AddressRange, Ipv6AddressRange,

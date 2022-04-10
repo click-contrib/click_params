@@ -5,7 +5,7 @@ import pytest
 
 from click_params.miscellaneous import (
     JSON, MAC_ADDRESS, JsonParamType, StringListParamType, MacAddressListParamType, UUIDListParamType,
-    DateTimeListParamType, UnionParamType
+    DateTimeListParamType, UnionParamType, ChoiceListParamType
 )
 
 from tests.helpers import assert_in_output, assert_equals_output
@@ -15,6 +15,7 @@ from tests.helpers import assert_in_output, assert_equals_output
     (JSON, 'json'),
     (MAC_ADDRESS, 'mac address'),
     (StringListParamType(), 'string list'),
+    (ChoiceListParamType(['a', 'b', 'c']), 'choice list'),
     (MacAddressListParamType(), 'mac address list'),
     (UUIDListParamType(), 'uuid list'),
     (DateTimeListParamType(), 'datetime list')
@@ -80,6 +81,9 @@ def test_should_print_correct_output_when_giving_correct_option_for_simple_types
     (StringListParamType(), 'foo,bar', "['foo', 'bar']\n"),
     (StringListParamType(), '', "['']\n"),
     (StringListParamType(' '), '1 2 foo', "['1', '2', 'foo']\n"),
+    # choice list
+    (ChoiceListParamType(['a', 'b', 'c']), 'a,b', "['a', 'b']\n"),
+    (ChoiceListParamType(['a', 'b', 'c'], separator=' '), 'a b c', "['a', 'b', 'c']\n"),
     # mac address list
     (MacAddressListParamType(), 'D4:6A:6A:12:B0:75,01:23:45:67:ab:CD', "['D4:6A:6A:12:B0:75', '01:23:45:67:ab:CD']\n"),
     (MacAddressListParamType(' '), 'D4:6A:6A:12:B0:75 01:23:45:67:ab:CD',
