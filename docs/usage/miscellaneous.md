@@ -115,7 +115,7 @@ Your list of preferred fruits:
 
 ## ChoiceListParamType
 
-Signature: `ChoiceListParamType(choices: Sequence[str], separator: str = ',', case_sensitive: bool = True)`
+Signature: `ChoiceListParamType(choices: Sequence[str], separator: str = ',', case_sensitive: bool = True, ignore_empty: bool = False)`
 
 Converts given string to a list of choices.
 
