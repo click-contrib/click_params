@@ -1,12 +1,12 @@
 """Parameter types that do not fit into other modules"""
 import json
+from textwrap import indent
 from typing import Any, Callable, List, Optional, Sequence, Tuple
 
 import click
 from validators import mac_address
 
 from .base import ValidatorParamType, ListParamType, CustomParamType
-
 
 class JsonParamType(click.ParamType):
     name = 'json'
@@ -105,7 +105,7 @@ class FirstOf(CustomParamType):
             "All possible options exhausted without any successful conversion:\n - "
             + "\n - ".join(
                 [
-                    f"{getattr(f[0], 'name', f[0].__class__.__name__).upper()}: {f[1]}"
+                    indent(f"{getattr(f[0], 'name', f[0].__class__.__name__).upper()}: {f[1]}", " ")
                     for f in fails
                 ]
             )
