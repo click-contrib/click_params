@@ -208,9 +208,9 @@ has a whitespace, therefore the separator helps to split properly.
 `click.DateTime`. If you want this datetime to be accepted, you need to provide a `formats` argument with the appropriate
 formats.
 
-## UnionParamType
+## FirstOf
 
-Signature: `UnionParamType(param_types: Sequence[click.ParamType], name: str = None)`
+Signature: `FirstOf(*param_types: click.ParamType)`
 
 Allows an option or an argument to accept at least two kinds of types.
 
@@ -219,7 +219,7 @@ import click
 from click_params import UnionParamType
 
 @click.command()
-@click.option('-j', '--jobs', type=UnionParamType([click.Choice(['half', 'all']), click.INT], name="cores number"))
+@click.option('-j', '--jobs', type=FirstOf(click.Choice(['half', 'all']), click.INT, name="cores number"))
 def cli(jobs):
     click.echo('Running on {jobs} cores!'.format(jobs=jobs))
     ...

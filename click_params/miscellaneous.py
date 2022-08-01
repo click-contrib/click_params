@@ -79,18 +79,21 @@ class DateTimeListParamType(ListParamType):
 
 
 class FirstOf(click.ParamType):
-    def __init__(self, *args: click.ParamType):
-        self.params = args
+    def __init__(self, *param_types: click.ParamType, name: Optional[str] = None):
+        self.param_types = param_types
         # Set name to union representation of individual params if not already set (by subclassing).
         if not getattr(self, "name", None):
-            self.name = "(" + " | ".join(p.name for p in self.params) + ")"
+            if name:
+                self.name = name
+            else:
+                self.name = "(" + " | ".join(p.name for p in self.param_types) + ")"
 
     def convert(
         self, value: str, param: Optional[click.Parameter], ctx: Optional[click.Context]
     ) -> Any:
         # Collect failure messages to emit later.
         fails: List[Tuple[click.ParamType, str]] = []
-        for par in self.params:
+        for par in self.param_types:
             try:
                 return (par, par.convert(value, param, ctx))
             except click.BadParameter as e:
