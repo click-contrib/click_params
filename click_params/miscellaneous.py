@@ -8,6 +8,7 @@ from validators import mac_address
 
 from .base import ValidatorParamType, ListParamType, CustomParamType
 
+
 class JsonParamType(click.ParamType):
     name = 'json'
 
@@ -86,7 +87,8 @@ class FirstOf(CustomParamType):
             if name:
                 self.name = name
             else:
-                # Set name to union representation of individual params. Using bitwise-or operator as thats used by python sets.
+                # Set name to union representation of individual params.
+                # Using pipe | as thats used by python sets for union.
                 self.name = "(" + " | ".join(p.name for p in self.param_types) + ")"
 
     def convert(
