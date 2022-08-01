@@ -153,10 +153,22 @@ class TestFirstOf:
         ('12.3', (click.Choice(['auto', 'full']), click.INT, click.FLOAT), 12.3)
     ])
     def test_should_parse_expression_successfully(self, expression, param_types, value):
-        union_type = FirstOf(param_types=param_types)
+        union_type = FirstOf(*param_types)
         converted_value = union_type.convert(expression, None, None)
         assert type(value) == type(converted_value)
         assert value == converted_value
+    
+    @pytest.mark.parametrize(('expression', 'param_types', 'expected_param_type'), [
+        ('12', (click.INT,), click.INT),
+        ('auto', (click.Choice(['auto', 'full']), click.INT), click.Choice(['auto', 'full'])),
+        ('full', (click.Choice(['auto', 'full']), click.INT), click.Choice(['auto', 'full'])),
+        ('12', (click.Choice(['auto', 'full']), click.INT), click.INT),
+        ('12.3', (click.Choice(['auto', 'full']), click.INT, click.FLOAT), click.FLOAT)
+    ])
+    def test_should_return_correct_paramtype(self, expression, param_types, expected_param_type):
+        union_type = FirstOf(*param_types, return_param=True)
+        (param_type, _) = union_type.convert(expression, None, None)
+        assert repr(expected_param_type) == repr(param_type)
 
     @pytest.mark.parametrize(('expression', 'param_types'), [
         ('auto', (click.INT,)),
@@ -164,6 +176,6 @@ class TestFirstOf:
         ('bla', (click.Choice(['auto', 'full']), click.INT, click.FLOAT)),
     ])
     def test_should_parse_expression_unsuccessfully(self, expression, param_types):
-        union_type = FirstOf(param_types=param_types)
-        with pytest.raises(click.BadParameter, match=r'.*\n - '.join(p.name.upper() for p in param_types)):
+        union_type = FirstOf(*param_types)
+        with pytest.raises(click.BadParameter, match=r'.*\n - '.join(p.name.upper() for p in param_types)) as e:
             union_type.convert(expression, None, None)
