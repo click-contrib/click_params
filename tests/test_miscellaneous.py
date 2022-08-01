@@ -5,7 +5,7 @@ import pytest
 
 from click_params.miscellaneous import (
     JSON, MAC_ADDRESS, JsonParamType, StringListParamType, MacAddressListParamType, UUIDListParamType,
-    DateTimeListParamType, UnionParamType, ChoiceListParamType
+    DateTimeListParamType, FirstOf, ChoiceListParamType
 )
 
 from tests.helpers import assert_in_output, assert_equals_output
@@ -132,14 +132,15 @@ class TestJsonParamType:
                                            parse_constant=Decimal, object_pairs_hook=None)
 
 
-class TestUnionParamType:
-    """Test class UnionParamType"""
+class TestFirstOf:
+    """Test class FirstOf"""
 
     def test_class_representation_is_correct(self):
-        class CoreNumber(UnionParamType):
+        class CoreNumber(FirstOf):
             name = 'core number'
 
-        assert 'CORE NUMBER' == repr(CoreNumber(param_types=(click.INT, click.Choice(['all', 'half']))))
+        assert 'CORE NUMBER' == repr(CoreNumber(click.INT, click.Choice(['all', 'half'])))
+        assert "(INTEGER | CHOICE)" == repr(FirstOf(click.INT, click.Choice(['all', 'half'])))
 
     @pytest.mark.parametrize(('expression', 'param_types', 'value'), [
         ('12', (click.INT,), 12),
@@ -152,7 +153,7 @@ class TestUnionParamType:
         ('12.3', (click.Choice(['auto', 'full']), click.INT, click.FLOAT), 12.3)
     ])
     def test_should_parse_expression_successfully(self, expression, param_types, value):
-        union_type = UnionParamType(param_types=param_types)
+        union_type = FirstOf(param_types=param_types)
         converted_value = union_type.convert(expression, None, None)
         assert type(value) == type(converted_value)
         assert value == converted_value
@@ -163,6 +164,6 @@ class TestUnionParamType:
         ('bla', (click.Choice(['auto', 'full']), click.INT, click.FLOAT)),
     ])
     def test_should_parse_expression_unsuccessfully(self, expression, param_types):
-        union_type = UnionParamType(param_types=param_types)
-        with pytest.raises(click.BadParameter):
+        union_type = FirstOf(param_types=param_types)
+        with pytest.raises(click.BadParameter, match=r'.*\n - '.join(p.name.upper() for p in param_types)):
             union_type.convert(expression, None, None)

@@ -78,20 +78,33 @@ class DateTimeListParamType(ListParamType):
         )
 
 
-class UnionParamType(CustomParamType):
+class FirstOf(click.ParamType):
+    def __init__(self, *args: click.ParamType):
+        self.params = args
+        # Set name to union representation of individual params if not already set (by subclassing).
+        if not getattr(self, "name", None):
+            self.name = "(" + " | ".join(p.name for p in self.params) + ")"
 
-    def __init__(self, param_types: Sequence[click.ParamType], name: str = None):
-        self._name = name or self.name
-        self._param_types = param_types
-        self._error_message = '{value} is not a valid %s' % self._name
-
-    def convert(self, value, param, ctx):
-        for param_type in self._param_types:
+    def convert(
+        self, value: str, param: Optional[click.Parameter], ctx: Optional[click.Context]
+    ) -> Any:
+        # Collect failure messages to emit later.
+        fails: List[Tuple[click.ParamType, str]] = []
+        for par in self.params:
             try:
-                return param_type.convert(value, param, ctx)
-            except click.BadParameter:
-                continue
-        self.fail(self._error_message.format(value=value))
+                return (par, par.convert(value, param, ctx))
+            except click.BadParameter as e:
+                fails.append((par, str(e)))
+
+        self.fail(
+            "All possible parameters exhausted without any successful conversion:\n - "
+            + "\n - ".join(
+                [
+                    f"{getattr(f[0], 'name', f[0].__class__.__name__).upper()}: {f[1]}"
+                    for f in fails
+                ]
+            )
+        )
 
     def __repr__(self):
         return self.name.upper()
