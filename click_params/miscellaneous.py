@@ -1,6 +1,6 @@
 """Parameter types that do not fit into other modules"""
 import json
-from typing import Callable, List, Sequence
+from typing import Any, Callable, List, Optional, Sequence, Tuple
 
 import click
 from validators import mac_address
@@ -78,14 +78,15 @@ class DateTimeListParamType(ListParamType):
         )
 
 
-class FirstOf(click.ParamType):
-    def __init__(self, *param_types: click.ParamType, name: Optional[str] = None):
+class FirstOf(CustomParamType):
+    def __init__(self, *param_types: click.ParamType, name: Optional[str] = None, return_param: bool = False):
         self.param_types = param_types
-        # Set name to union representation of individual params if not already set (by subclassing).
+        self.return_param = return_param
         if not getattr(self, "name", None):
             if name:
                 self.name = name
             else:
+                # Set name to union representation of individual params. Using bitwise-or operator as thats used by python sets.
                 self.name = "(" + " | ".join(p.name for p in self.param_types) + ")"
 
     def convert(
@@ -93,14 +94,15 @@ class FirstOf(click.ParamType):
     ) -> Any:
         # Collect failure messages to emit later.
         fails: List[Tuple[click.ParamType, str]] = []
-        for par in self.param_types:
+        for param_type in self.param_types:
             try:
-                return (par, par.convert(value, param, ctx))
+                result = param_type.convert(value, param, ctx)
+                return (param_type, result) if self.return_param else result
             except click.BadParameter as e:
-                fails.append((par, str(e)))
+                fails.append((param_type, str(e)))
 
         self.fail(
-            "All possible parameters exhausted without any successful conversion:\n - "
+            "All possible options exhausted without any successful conversion:\n - "
             + "\n - ".join(
                 [
                     f"{getattr(f[0], 'name', f[0].__class__.__name__).upper()}: {f[1]}"
@@ -110,7 +112,8 @@ class FirstOf(click.ParamType):
         )
 
     def __repr__(self):
-        return self.name.upper()
+        # added str() here to pass type check due to name being optional.
+        return str(self.name).upper()
 
 
 JSON = JsonParamType()
