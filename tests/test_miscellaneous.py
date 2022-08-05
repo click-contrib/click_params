@@ -177,5 +177,5 @@ class TestFirstOf:
     ])
     def test_should_parse_expression_unsuccessfully(self, expression, param_types):
         union_type = FirstOf(*param_types)
-        with pytest.raises(click.BadParameter, match=r'.*\n - '.join(p.name.upper() for p in param_types)) as e:
+        with pytest.raises(click.BadParameter, match=r'.*\n -  '.join(p.name.upper() for p in param_types)) as e:
             union_type.convert(expression, None, None)
