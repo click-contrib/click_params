@@ -208,18 +208,24 @@ has a whitespace, therefore the separator helps to split properly.
 `click.DateTime`. If you want this datetime to be accepted, you need to provide a `formats` argument with the appropriate
 formats.
 
-## UnionParamType
+## FirstOf
 
-Signature: `UnionParamType(param_types: Sequence[click.ParamType], name: str = None)`
+Signature: `FirstOf(*param_types: click.ParamType, name: Optional[str] = None, return_param: bool = False)`
 
 Allows an option or an argument to accept at least two kinds of types.
 
+- `name` is used as a custom name. If none is specified, a set union `(param1 | param2)` is used as name.
+- with `return_param` the FirstOf will return the parameter used for conversion alongside the result, as a tuple `(param, value)`.
+This allows for logic in a command to check which conversion was used in case there are differences in handling,
+especially differences in the param_types return types.
+
+
 ````python
 import click
-from click_params import UnionParamType
+from click_params import FirstOf
 
 @click.command()
-@click.option('-j', '--jobs', type=UnionParamType([click.Choice(['half', 'all']), click.INT], name="cores number"))
+@click.option('-j', '--jobs', type=FirstOf(click.Choice(['half', 'all']), click.INT, name="cores number"))
 def cli(jobs):
     click.echo('Running on {jobs} cores!'.format(jobs=jobs))
     ...
@@ -233,14 +239,16 @@ $ python cli.py -j all
 Running on all cores
 
 $ python cli.py -j 2.5
-Error: 2.5 is not a valid cores number
+Error: Invalid value for '-j' / '--jobs': All possible options exhausted without any successful conversion:
+ - CHOICE: '2.5' is not one of 'half', 'all'.
+ - INTEGER: '2.5' is not a valid integer.
 
 $ python cli.py -j third
-Error: third is not a valid cores number
+Error: Invalid value for '-j' / '--jobs': All possible options exhausted without any successful conversion:
+ - CHOICE: 'third' is not one of 'half', 'all'.
+ - INTEGER: 'third' is not a valid integer.
 ````
 
 Two remarks compared to the last script.
 
 - The order of parameter types in the union is the order click will try to parse the value.
-- In the last two examples click was unable to parse because they were neither an integer nor a string from allowed 
-choices.

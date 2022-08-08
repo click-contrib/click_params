@@ -7,7 +7,7 @@ from .domain import (
 )
 from .miscellaneous import (
     JSON, MAC_ADDRESS, StringListParamType, ChoiceListParamType, MacAddressListParamType, UUIDListParamType,
-    DateTimeListParamType, UnionParamType
+    DateTimeListParamType, FirstOf
 )
 from .network import (
     IP_ADDRESS, IPV4_ADDRESS, IPV6_ADDRESS, IP_NETWORK, IPV4_NETWORK, IPV6_NETWORK, Ipv4AddressRange, Ipv6AddressRange,
@@ -30,7 +30,7 @@ __all__ = [
 
     # miscellaneous
     'JSON', 'MAC_ADDRESS', 'ChoiceListParamType', 'StringListParamType', 'MacAddressListParamType', 'UUIDListParamType',
-    'DateTimeListParamType', 'UnionParamType',
+    'DateTimeListParamType', 'FirstOf',
 
     # network
     'IP_ADDRESS', 'IPV6_ADDRESS', 'IPV4_ADDRESS', 'IP_NETWORK', 'IPV4_NETWORK', 'IPV6_NETWORK', 'Ipv4AddressRange',
