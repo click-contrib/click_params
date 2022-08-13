@@ -78,7 +78,7 @@ the necessary tests in your code ;)
 
 Signature: `RangeParamType(param_type: click.ParamType, minimum: Min = None, maximum: Max = None, clamp: bool = False)`
 
-This class helps to create types where values needed to be bounded. The `minimum` and `maximum` parameters **must** have 
+This class helps to create types where values needed to be bounded. The `minimum` and `maximum` parameters **must** have
 the **same type** and the type **must** implement comparison operators (<, >, ..).
 
 Parameters:
@@ -106,7 +106,7 @@ class IntRange(RangeParamType):
 ````
 
 !!! note
-    If you look at the `__repr__` implementation of the `RangeParamType`, you will notice that it expects a `name` 
+    If you look at the `__repr__` implementation of the `RangeParamType`, you will notice that it expects a `name`
     attribute with two words separated by a whitespace. If you don't want this behaviour you can override this method.
 
 ## ListParamType

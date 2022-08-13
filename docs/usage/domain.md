@@ -69,7 +69,7 @@ Your list of domain names:
 $ python cli.py --domains='foo bar.com bar'
 Error: These items are not domain names: ['foo', 'bar']
 ````
- 
+
 ## PUBLIC_URL
 
 Validates that a string is a regular url.

@@ -6,15 +6,22 @@ from typing import Any, Callable, List, Optional, Sequence, Tuple
 import click
 from validators import mac_address
 
-from .base import ValidatorParamType, ListParamType, CustomParamType
+from .base import CustomParamType, ListParamType, ValidatorParamType
 
 
 class JsonParamType(click.ParamType):
     name = 'json'
 
-    def __init__(self, cls: Callable = None, object_hook: Callable = None, parse_float: Callable = None,
-                 parse_int: Callable = None, parse_constant: Callable = None, object_pairs_hook: Callable = None,
-                 **kwargs):
+    def __init__(
+        self,
+        cls: Callable = None,
+        object_hook: Callable = None,
+        parse_float: Callable = None,
+        parse_int: Callable = None,
+        parse_constant: Callable = None,
+        object_pairs_hook: Callable = None,
+        **kwargs,
+    ):
         self._cls = cls
         self._object_hook = object_hook
         self._parse_float = parse_float
@@ -25,9 +32,16 @@ class JsonParamType(click.ParamType):
 
     def convert(self, value, param, ctx):
         try:
-            return json.loads(value, cls=self._cls, object_hook=self._object_hook, parse_float=self._parse_float,
-                              parse_int=self._parse_int, parse_constant=self._parse_constant,
-                              object_pairs_hook=self._object_pairs_hook, **self._kwargs)
+            return json.loads(
+                value,
+                cls=self._cls,
+                object_hook=self._object_hook,
+                parse_float=self._parse_float,
+                parse_int=self._parse_int,
+                parse_constant=self._parse_constant,
+                object_pairs_hook=self._object_pairs_hook,
+                **self._kwargs,
+            )
         except json.JSONDecodeError:
             self.fail(f'{value} is not a valid json string', param, ctx)
 
@@ -91,9 +105,7 @@ class FirstOf(CustomParamType):
                 # Using pipe | as that is used by python sets for union.
                 self.name = '(' + ' | '.join(p.name for p in self.param_types) + ')'
 
-    def convert(
-        self, value: str, param: Optional[click.Parameter], ctx: Optional[click.Context]
-    ) -> Any:
+    def convert(self, value: str, param: Optional[click.Parameter], ctx: Optional[click.Context]) -> Any:
         # Collect failure messages to emit later.
         fails: List[Tuple[click.ParamType, str]] = []
         for param_type in self.param_types:
@@ -108,8 +120,7 @@ class FirstOf(CustomParamType):
             + "\n - ".join(
                 [
                     indent(
-                        f"{getattr(f[0], 'name', f[0].__class__.__name__).upper()}:"
-                        f' {f[1]}',
+                        f"{getattr(f[0], 'name', f[0].__class__.__name__).upper()}:" f' {f[1]}',
                         ' ',
                     )
                     for f in fails

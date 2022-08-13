@@ -112,6 +112,9 @@ Your list of preferred fruits:
 - pineapples
 - strawberries
 ````
+<!--
+There is an issue when prompting this param type to the user, so until it is resolved
+we avoid documenting it
 
 ## ChoiceListParamType
 
@@ -142,6 +145,7 @@ Your list of preferred fruits:
 $ python cli.py --fruits='apple lemon'
 Error: Invalid value for '--fruits': invalid choice: lemon. (choose from apple, banana, watermelon)
 ````
+-->
 
 ## UUIDListParamType
 

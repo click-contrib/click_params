@@ -39,9 +39,9 @@ present.
 
 If we consider again the previous command, if we want to test the case where the name entered by the user is _John_, it
 will not be convenient to test the entire error message returned by the click command because a large part is generated
-by click itself and it is irrelevant: `"Usage... Error.."`. 
+by click itself and it is irrelevant: `"Usage... Error.."`.
 
-Instead, we would prefer to focus on the error message we explicitly send to the user, in this case: 
+Instead, we would prefer to focus on the error message we explicitly send to the user, in this case:
 `"the name is incorrect"`
 
 ````python
@@ -81,6 +81,6 @@ from my_project.scripts import cli
 def test_echo_json():
     runner = CliRunner()
     result = runner.invoke(cli)
-    
+
     assert_list_in_output(0, ['name', 'Kevin T', 'age', 25], result)
 ````

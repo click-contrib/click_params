@@ -5,6 +5,7 @@
 [![Coverage Status](https://codecov.io/gh/click-contrib/click_params/branch/master/graphs/badge.svg?branch=master)](https://codecov.io/gh/click-contrib/click_params)
 [![Documentation Status](https://readthedocs.org/projects/click_params/badge/?version=latest)](https://click-params.readthedocs.io/en/latest/?badge=latest)
 [![License Apache 2](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+[![Code Style](https://img.shields.io/badge/code%20style-black-black)](https://github.com/click-contrib/click_params)
 
 A bunch of useful click parameter types.
 
@@ -51,4 +52,3 @@ You can change the default separator "," by passing it when initializing the par
 ## Documentation
 
 Documentation is available at https://click-params.readthedocs.io/en/latest/.
-
