@@ -1,5 +1,3 @@
-__version__ = '0.2.0'
-
 from .base import BaseParamType, ListParamType, RangeParamType, ValidatorParamType
 from .domain import (
     DOMAIN,

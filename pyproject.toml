@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "click-params"
-version = "0.3.0"
+version = "0.4.0"
 description = "A bunch of useful click parameter types"
 authors = ["lewoudar <lewoudar@gmail.com>"]
 license = "Apache-2.0"
