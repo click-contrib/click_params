@@ -5,9 +5,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2022-08-13
+
+### Added
+
+- All `ListParamType` subclasses have a new parameter `ignore_empty` that defaults to False.
+
+### Changed
+
+- Renamed `UnionParamType` to `FirstOf` and changed its signature.
+
 ## [0.3.0] - 2022-03-14
 
-## Fixed
+### Fixed
 
 - An issue when a user is prompted a value for a type inheriting `ListParamType`.
 
