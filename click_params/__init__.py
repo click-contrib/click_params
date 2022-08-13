@@ -14,10 +14,9 @@ from .domain import (
     SlugListParamType,
     UrlListParamType,
 )
-from .miscellaneous import (
+from .miscellaneous import (  # ChoiceListParamType,
     JSON,
     MAC_ADDRESS,
-    ChoiceListParamType,
     DateTimeListParamType,
     FirstOf,
     MacAddressListParamType,
@@ -75,7 +74,7 @@ __all__ = [
     # miscellaneous
     'JSON',
     'MAC_ADDRESS',
-    'ChoiceListParamType',
+    # 'ChoiceListParamType',
     'StringListParamType',
     'MacAddressListParamType',
     'UUIDListParamType',
