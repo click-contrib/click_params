@@ -13,9 +13,17 @@ CI_ENVIRONMENT = 'GITHUB_ACTIONS' in os.environ
 def lint(session):
     """Performs pep8 and security checks."""
     source_code = 'click_params'
-    session.install('flake8==3.9.2', 'bandit==1.7.0')
+    session.install('flake8==3.9.2', 'bandit==1.7.4')
     session.run('flake8', source_code)
     session.run('bandit', '-r', source_code)
+
+
+@nox.session(python=PYTHON_VERSIONS[-1])
+def safety(session):
+    """Checks vulnerabilities of the installed packages."""
+    session.install('poetry>=1.0.0,<2.0.0')
+    session.run('poetry', 'install')
+    session.run('safety', 'check')
 
 
 @nox.session(python=PYTHON_VERSIONS)
@@ -25,15 +33,11 @@ def tests(session):
     session.run('poetry', 'install')
     session.run('pytest')
 
-    # we notify codecov when the latest version of python is used
-    if session.python == PYTHON_VERSIONS[-1] and CI_ENVIRONMENT:
-        session.run('codecov', '-f', 'coverage.xml')
-
 
 @nox.session(python=PYTHON_VERSIONS[-1])
 def docs(session):
     """Builds the documentation."""
-    session.install('mkdocs==1.0.4')
+    session.install('mkdocs==1.3.0')
     session.run('mkdocs', 'build', '--clean')
 
 

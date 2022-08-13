@@ -26,6 +26,9 @@ jobs:
       - name: Lint
         run: nox -s lint
         if: matrix.os == 'ubuntu-latest' && matrix.python == '3.10'
+      - name: Scan packages for vulnerabilities
+        run: nox -s safety
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.10'
       - name: CPython tests
         run: nox -s tests-${{ matrix.python }}
         if: matrix.python != 'pypy-3.7'
