@@ -83,13 +83,13 @@ class FirstOf(CustomParamType):
     def __init__(self, *param_types: click.ParamType, name: Optional[str] = None, return_param: bool = False):
         self.param_types = param_types
         self.return_param = return_param
-        if not getattr(self, "name", None):
+        if not getattr(self, 'name', None):
             if name:
                 self.name = name
             else:
                 # Set name to union representation of individual params.
-                # Using pipe | as thats used by python sets for union.
-                self.name = "(" + " | ".join(p.name for p in self.param_types) + ")"
+                # Using pipe | as that is used by python sets for union.
+                self.name = '(' + ' | '.join(p.name for p in self.param_types) + ')'
 
     def convert(
         self, value: str, param: Optional[click.Parameter], ctx: Optional[click.Context]
@@ -104,13 +104,13 @@ class FirstOf(CustomParamType):
                 fails.append((param_type, str(e)))
 
         self.fail(
-            "All possible options exhausted without any successful conversion:\n - "
+            'All possible options exhausted without any successful conversion:\n - '
             + "\n - ".join(
                 [
                     indent(
                         f"{getattr(f[0], 'name', f[0].__class__.__name__).upper()}:"
-                        f" {f[1]}",
-                        " ",
+                        f' {f[1]}',
+                        ' ',
                     )
                     for f in fails
                 ]

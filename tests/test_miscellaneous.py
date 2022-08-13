@@ -140,7 +140,8 @@ class TestFirstOf:
             name = 'core number'
 
         assert 'CORE NUMBER' == repr(CoreNumber(click.INT, click.Choice(['all', 'half'])))
-        assert "(INTEGER | CHOICE)" == repr(FirstOf(click.INT, click.Choice(['all', 'half'])))
+        assert 'CORE NUMBER' == repr(FirstOf(click.INT, click.Choice(['all', 'half']), name='core number'))
+        assert '(INTEGER | CHOICE)' == repr(FirstOf(click.INT, click.Choice(['all', 'half'])))
 
     @pytest.mark.parametrize(('expression', 'param_types', 'value'), [
         ('12', (click.INT,), 12),
@@ -165,7 +166,7 @@ class TestFirstOf:
         ('12', (click.Choice(['auto', 'full']), click.INT), click.INT),
         ('12.3', (click.Choice(['auto', 'full']), click.INT, click.FLOAT), click.FLOAT)
     ])
-    def test_should_return_correct_paramtype(self, expression, param_types, expected_param_type):
+    def test_should_return_correct_param_type(self, expression, param_types, expected_param_type):
         union_type = FirstOf(*param_types, return_param=True)
         (param_type, _) = union_type.convert(expression, None, None)
         assert repr(expected_param_type) == repr(param_type)
@@ -177,5 +178,5 @@ class TestFirstOf:
     ])
     def test_should_parse_expression_unsuccessfully(self, expression, param_types):
         union_type = FirstOf(*param_types)
-        with pytest.raises(click.BadParameter, match=r'.*\n -  '.join(p.name.upper() for p in param_types)) as e:
+        with pytest.raises(click.BadParameter, match=r'.*\n -  '.join(p.name.upper() for p in param_types)):
             union_type.convert(expression, None, None)
