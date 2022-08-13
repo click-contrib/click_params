@@ -1,7 +1,7 @@
 """Network parameter types"""
 import ipaddress
 
-from .base import BaseParamType, RangeParamType, ListParamType
+from .base import BaseParamType, ListParamType, RangeParamType
 
 
 class IpAddress(BaseParamType):
@@ -28,8 +28,9 @@ class Ipv4Address(BaseParamType):
 class Ipv4AddressRange(RangeParamType):
     name = 'ipv4 address range'
 
-    def __init__(self, minimum: ipaddress.IPv4Address = None, maximum: ipaddress.IPv4Address = None,
-                 clamp: bool = False):
+    def __init__(
+        self, minimum: ipaddress.IPv4Address = None, maximum: ipaddress.IPv4Address = None, clamp: bool = False
+    ):
         super().__init__(Ipv4Address(), minimum, maximum, clamp)
 
     def __repr__(self):
@@ -53,8 +54,9 @@ class Ipv6Address(BaseParamType):
 class Ipv6AddressRange(RangeParamType):
     name = 'ipv6 address range'
 
-    def __init__(self, minimum: ipaddress.IPv6Address = None, maximum: ipaddress.IPv6Address = None,
-                 clamp: bool = False):
+    def __init__(
+        self, minimum: ipaddress.IPv6Address = None, maximum: ipaddress.IPv6Address = None, clamp: bool = False
+    ):
         super().__init__(Ipv6Address(), minimum, maximum, clamp)
 
     def __repr__(self):

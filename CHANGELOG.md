@@ -35,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Changed .travis.yml and appveyor.yml to take in account nox.
-  
+
 ### Removed
 - Removed pipenv in favor of poetry.
 

@@ -1,46 +1,114 @@
 __version__ = '0.2.0'
 
-from .base import BaseParamType, ValidatorParamType, RangeParamType, ListParamType
+from .base import BaseParamType, ListParamType, RangeParamType, ValidatorParamType
 from .domain import (
-    DOMAIN, PUBLIC_URL, URL, EMAIL, SLUG, EmailParamType, DomainListParamType, PublicUrlListParamType,
-    UrlListParamType, EmailListParamType, SlugListParamType
+    DOMAIN,
+    EMAIL,
+    PUBLIC_URL,
+    SLUG,
+    URL,
+    DomainListParamType,
+    EmailListParamType,
+    EmailParamType,
+    PublicUrlListParamType,
+    SlugListParamType,
+    UrlListParamType,
 )
 from .miscellaneous import (
-    JSON, MAC_ADDRESS, StringListParamType, ChoiceListParamType, MacAddressListParamType, UUIDListParamType,
-    DateTimeListParamType, FirstOf
+    JSON,
+    MAC_ADDRESS,
+    ChoiceListParamType,
+    DateTimeListParamType,
+    FirstOf,
+    MacAddressListParamType,
+    StringListParamType,
+    UUIDListParamType,
 )
 from .network import (
-    IP_ADDRESS, IPV4_ADDRESS, IPV6_ADDRESS, IP_NETWORK, IPV4_NETWORK, IPV6_NETWORK, Ipv4AddressRange, Ipv6AddressRange,
-    IpAddressListParamType, Ipv4AddressListParamType, Ipv6AddressListParamType, IpNetworkListParamType,
-    Ipv4NetworkListParamType, Ipv6NetworkListParamType
+    IP_ADDRESS,
+    IP_NETWORK,
+    IPV4_ADDRESS,
+    IPV4_NETWORK,
+    IPV6_ADDRESS,
+    IPV6_NETWORK,
+    IpAddressListParamType,
+    IpNetworkListParamType,
+    Ipv4AddressListParamType,
+    Ipv4AddressRange,
+    Ipv4NetworkListParamType,
+    Ipv6AddressListParamType,
+    Ipv6AddressRange,
+    Ipv6NetworkListParamType,
 )
 from .numeric import (
-    COMPLEX, FRACTION, DECIMAL, DecimalRange, FractionRange, IntListParamType, FloatListParamType,
-    FractionListParamType, DecimalListParamType, ComplexListParamType
+    COMPLEX,
+    DECIMAL,
+    FRACTION,
+    ComplexListParamType,
+    DecimalListParamType,
+    DecimalRange,
+    FloatListParamType,
+    FractionListParamType,
+    FractionRange,
+    IntListParamType,
 )
-from .test_utils import assert_list_in_output, assert_equals_output, assert_in_output
+from .test_utils import assert_equals_output, assert_in_output, assert_list_in_output
 
 __all__ = [
     # base
-    'BaseParamType', 'ValidatorParamType', 'RangeParamType', 'ListParamType',
-
+    'BaseParamType',
+    'ValidatorParamType',
+    'RangeParamType',
+    'ListParamType',
     # domain
-    'DOMAIN', 'PUBLIC_URL', 'URL', 'EmailParamType', 'EMAIL', 'SLUG', 'DomainListParamType', 'PublicUrlListParamType',
-    'UrlListParamType', 'EmailListParamType', 'SlugListParamType',
-
+    'DOMAIN',
+    'PUBLIC_URL',
+    'URL',
+    'EmailParamType',
+    'EMAIL',
+    'SLUG',
+    'DomainListParamType',
+    'PublicUrlListParamType',
+    'UrlListParamType',
+    'EmailListParamType',
+    'SlugListParamType',
     # miscellaneous
-    'JSON', 'MAC_ADDRESS', 'ChoiceListParamType', 'StringListParamType', 'MacAddressListParamType', 'UUIDListParamType',
-    'DateTimeListParamType', 'FirstOf',
-
+    'JSON',
+    'MAC_ADDRESS',
+    'ChoiceListParamType',
+    'StringListParamType',
+    'MacAddressListParamType',
+    'UUIDListParamType',
+    'DateTimeListParamType',
+    'FirstOf',
     # network
-    'IP_ADDRESS', 'IPV6_ADDRESS', 'IPV4_ADDRESS', 'IP_NETWORK', 'IPV4_NETWORK', 'IPV6_NETWORK', 'Ipv4AddressRange',
-    'Ipv6AddressRange', 'IpAddressListParamType', 'Ipv4AddressListParamType', 'Ipv6AddressListParamType',
-    'Ipv4NetworkListParamType', 'IpNetworkListParamType', 'Ipv6NetworkListParamType',
-
+    'IP_ADDRESS',
+    'IPV6_ADDRESS',
+    'IPV4_ADDRESS',
+    'IP_NETWORK',
+    'IPV4_NETWORK',
+    'IPV6_NETWORK',
+    'Ipv4AddressRange',
+    'Ipv6AddressRange',
+    'IpAddressListParamType',
+    'Ipv4AddressListParamType',
+    'Ipv6AddressListParamType',
+    'Ipv4NetworkListParamType',
+    'IpNetworkListParamType',
+    'Ipv6NetworkListParamType',
     # numeric
-    'FRACTION', 'FractionRange', 'DECIMAL', 'DecimalRange', 'COMPLEX', 'IntListParamType', 'FloatListParamType',
-    'FractionListParamType', 'DecimalListParamType', 'ComplexListParamType',
-
+    'FRACTION',
+    'FractionRange',
+    'DECIMAL',
+    'DecimalRange',
+    'COMPLEX',
+    'IntListParamType',
+    'FloatListParamType',
+    'FractionListParamType',
+    'DecimalListParamType',
+    'ComplexListParamType',
     # test_utils
-    'assert_equals_output', 'assert_in_output', 'assert_list_in_output'
+    'assert_equals_output',
+    'assert_in_output',
+    'assert_list_in_output',
 ]

@@ -51,4 +51,3 @@ You can change the default separator "," by passing it when initializing the par
 ## Documentation
 
 Documentation is available at https://click-params.readthedocs.io/en/latest/.
-

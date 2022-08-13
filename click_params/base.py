@@ -1,9 +1,9 @@
 """Base classes to implement various parameter types"""
-from typing import Union, Tuple, Callable, List, Any, Optional
+from typing import Any, Callable, List, Optional, Tuple, Union
 
 import click
 
-from .annotations import Min, Max, Error
+from .annotations import Error, Max, Min
 
 
 class CustomParamType(click.ParamType):
@@ -46,7 +46,6 @@ class ValidatorParamType(CustomParamType):
 
 
 class RangeParamType(CustomParamType):
-
     def __init__(self, param_type: click.ParamType, minimum: Min = None, maximum: Max = None, clamp: bool = False):
         self._minimum = minimum
         self._maximum = maximum
@@ -70,8 +69,9 @@ class RangeParamType(CustomParamType):
             elif self._maximum is None:
                 self.fail(f'{converted_value} is smaller than the minimum valid value {self._minimum}.', param, ctx)
             else:
-                self.fail(f'{converted_value} is not in the valid range of {self._minimum} to {self._maximum}.',
-                          param, ctx)
+                self.fail(
+                    f'{converted_value} is not in the valid range of {self._minimum} to {self._maximum}.', param, ctx
+                )
         return converted_value
 
     def __repr__(self):
@@ -82,14 +82,7 @@ class RangeParamType(CustomParamType):
 
 
 class ListParamType(CustomParamType):
-
-    def __init__(
-        self,
-        param_type: click.ParamType,
-        separator: str = ',',
-        name: str = None,
-        ignore_empty: bool = False
-    ):
+    def __init__(self, param_type: click.ParamType, separator: str = ',', name: str = None, ignore_empty: bool = False):
         if not isinstance(separator, str):
             raise TypeError('separator must be a string')
         self._separator = separator

@@ -11,7 +11,7 @@ if __name__ == '__main__':
 !!! note
     For windows users, instead of using simple quotes for the following examples related to list parameters,
     you should use double quotes.
-    
+
 ## IP_ADDRESS
 
 Converts string to an `ipaddress.IPv4Address` or `ipaddress.IPv6Address` object.
@@ -110,7 +110,7 @@ max_ip = IPv4Address('127.0.0.125')
 def cli(first_ip, second_ip):
     click.echo(first_ip)
     click.echo(second_ip)
-```` 
+````
 
 ````bash
 $ python cli.py -f 127.0.0.1 -s 127.0.0.130
@@ -194,7 +194,7 @@ max_ip = IPv6Address('2001:dbff:ffff:ffff:ffff:ffff:ffff:fffe')
 def cli(first_ip, second_ip):
     click.echo(first_ip)
     click.echo(second_ip)
-```` 
+````
 
 ````bash
 $ python cli.py -f 2001:db00::2 -s 2001:dc00::9

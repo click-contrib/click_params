@@ -4,7 +4,7 @@ from fractions import Fraction
 
 import click
 
-from .base import BaseParamType, RangeParamType, ListParamType
+from .base import BaseParamType, ListParamType, RangeParamType
 
 
 class DecimalParamType(BaseParamType):
@@ -60,27 +60,21 @@ class ComplexListParamType(ListParamType):
     name = 'complex list'
 
     def __init__(self, separator: str = ',', ignore_empty: bool = False):
-        super().__init__(
-            COMPLEX, separator=separator, name='complex values', ignore_empty=ignore_empty
-        )
+        super().__init__(COMPLEX, separator=separator, name='complex values', ignore_empty=ignore_empty)
 
 
 class IntListParamType(ListParamType):
     name = 'int list'
 
     def __init__(self, separator: str = ',', ignore_empty: bool = False):
-        super().__init__(
-            click.INT, separator=separator, name='integers', ignore_empty=ignore_empty
-        )
+        super().__init__(click.INT, separator=separator, name='integers', ignore_empty=ignore_empty)
 
 
 class FloatListParamType(ListParamType):
     name = 'float list'
 
     def __init__(self, separator: str = ',', ignore_empty: bool = False):
-        super().__init__(
-            click.FLOAT, separator=separator, name='floating point values', ignore_empty=ignore_empty
-        )
+        super().__init__(click.FLOAT, separator=separator, name='floating point values', ignore_empty=ignore_empty)
 
 
 DECIMAL = DecimalParamType()

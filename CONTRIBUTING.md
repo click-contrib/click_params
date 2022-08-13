@@ -43,7 +43,7 @@ single-quotes strings ('hello' instead of "hello") when presenting python code.
 Ready to contribute? Here is how to setup the project for local development.
 1. Fork the click_params repo on Github.
 
-2. Clone your fork locally. If you don't know how to proceed, 
+2. Clone your fork locally. If you don't know how to proceed,
    take a look at this [article](https://help.github.com/en/articles/fork-a-repo).
 
 3. Install the dependencies needed by the project. You must first install [poetry](https://python-poetry.org/docs/) on
@@ -73,5 +73,5 @@ Ready to contribute? Here is how to setup the project for local development.
 7. Before submitting the pull request, you should verify that you include tests. There is also a code coverage
    configured with the project. You can check the pull request status to know if your tests cover all the code you wrote.
    If your pull request add functionality, please update the documentation.
- 
+
 8. Submit your pull request through the GitHub website.

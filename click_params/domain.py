@@ -2,9 +2,9 @@
 from functools import partial
 from typing import List
 
-from validators import domain, url, email, slug
+from validators import domain, email, slug, url
 
-from .base import ValidatorParamType, ListParamType
+from .base import ListParamType, ValidatorParamType
 
 
 class DomainParamType(ValidatorParamType):
