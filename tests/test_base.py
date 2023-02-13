@@ -137,8 +137,9 @@ class TestListParamType:
         'separator', [{}, {'separator': ' '}, {'separator': ';'}]  # default separator should be used i.e ","
     )
     def test_should_not_raise_error_when_instantiating_with_a_string(self, separator):
+        expected_separator = separator.get("separator", ",")  # default separator
         base_list = ListParamType(click.INT, **separator)
-        assert not base_list._convert_called
+        assert base_list._separator == expected_separator
 
     # we test method _strip_separator
 
@@ -189,7 +190,6 @@ class TestListParamType:
         # this is to test the scenario when a user is prompted for a value, it seems that
         # the convert method is called more than once
         # after the first call, all subsequent calls will have the converted value as first argument
-        assert base_list._convert_called
         assert values == base_list.convert(values, None, None)
 
     @pytest.mark.parametrize('param_type', [click.INT, click.FLOAT, click.STRING, FRACTION, COMPLEX])

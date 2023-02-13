@@ -88,7 +88,6 @@ class ListParamType(CustomParamType):
         self._separator = separator
         self._name = name or self.name
         self._param_type = param_type
-        self._convert_called = False
         self._error_message = 'These items are not %s: {errors}' % self._name
         self._ignore_empty = ignore_empty
 
@@ -115,7 +114,7 @@ class ListParamType(CustomParamType):
         # For an unknown reason, when a user is prompted for a value using "prompt" argument from click.option
         # the convert method seems to be called more than once, so this is necessary to avoid an error
         # when calling self._strip_separator below since the value passed will be already converted to a list
-        if self._convert_called:
+        if isinstance(value, list):
             return value
 
         if self._ignore_empty and value == "":
@@ -125,7 +124,6 @@ class ListParamType(CustomParamType):
         if errors:
             self.fail(self._error_message.format(errors=errors), param, ctx)
 
-        self._convert_called = True
         return converted_list
 
     def __repr__(self):

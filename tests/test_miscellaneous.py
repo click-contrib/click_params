@@ -166,6 +166,21 @@ def test_miscellaneous_list_param_types_ignore_empty_string(param_type):
     assert misc_list_type.convert("", None, None) == []
 
 
+def test_cli_with_multiple_similar_string_list_param_types(runner):
+    @click.command()
+    @click.option('-v', 'values', type=StringListParamType(","))
+    def cli(values):
+        click.echo(values)
+
+    result = runner.invoke(cli, ['-v', "abc,def"])
+
+    assert result.output == "['abc', 'def']\n"
+
+    result = runner.invoke(cli, ['-v', "abc,def"])
+    # TODO: the following will currently fail!
+    assert result.output == "['abc', 'def']\n"
+
+
 class TestJsonParamType:
     """Tests JsonParamType specific cases"""
 
