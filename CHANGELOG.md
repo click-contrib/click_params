@@ -5,6 +5,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.1] - 2023-02-19
+
+### Fixed
+
+- Fixed `ListParamType` to be able to parse the same input multiple times in a row (#23).
+
 ## [0.4.0] - 2022-08-13
 
 ### Added

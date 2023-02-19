@@ -177,7 +177,7 @@ def test_cli_with_multiple_similar_string_list_param_types(runner):
     assert result.output == "['abc', 'def']\n"
 
     result = runner.invoke(cli, ['-v', "abc,def"])
-    # TODO: the following will currently fail!
+
     assert result.output == "['abc', 'def']\n"
 
 

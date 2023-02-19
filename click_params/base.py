@@ -111,9 +111,7 @@ class ListParamType(CustomParamType):
         return errors, converted_items
 
     def convert(self, value, param, ctx):
-        # For an unknown reason, when a user is prompted for a value using "prompt" argument from click.option
-        # the convert method seems to be called more than once, so this is necessary to avoid an error
-        # when calling self._strip_separator below since the value passed will be already converted to a list
+        # if a value is already converted, we returned it
         if isinstance(value, list):
             return value
 
