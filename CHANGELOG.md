@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - The signature of `UrlParamType` bas been changed to match the changes made in the `validators.url` function.
+- The signature of `EmailParamType` bas been changed to match the changes made in the `validators.email` function.
 
 ### Deprecated
 

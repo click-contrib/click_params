@@ -12,6 +12,7 @@ The project has a few dependencies:
 
 - [click](https://click.palletsprojects.com/) >= 7.0
 - [validators](https://validators.readthedocs.io/en/latest/)
+- [deprecated](https://deprecated.readthedocs.io/en/latest/)
 
 !!! note
-    click-params works starting from **python 3.7**
+    click-params works starting from **python 3.8**
