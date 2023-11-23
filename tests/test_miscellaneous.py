@@ -158,25 +158,25 @@ def test_should_print_correct_output_when_giving_correct_option_for_list_types(
 
 
 @pytest.mark.parametrize(
-    "param_type", [StringListParamType, MacAddressListParamType, UUIDListParamType, DateTimeListParamType]
+    'param_type', [StringListParamType, MacAddressListParamType, UUIDListParamType, DateTimeListParamType]
 )
 def test_miscellaneous_list_param_types_ignore_empty_string(param_type):
     misc_list_type = param_type(ignore_empty=True)
 
-    assert misc_list_type.convert("", None, None) == []
+    assert misc_list_type.convert('', None, None) == []
 
 
 def test_cli_with_multiple_similar_string_list_param_types(runner):
     @click.command()
-    @click.option('-v', 'values', type=StringListParamType(","))
+    @click.option('-v', 'values', type=StringListParamType(','))
     def cli(values):
         click.echo(values)
 
-    result = runner.invoke(cli, ['-v', "abc,def"])
+    result = runner.invoke(cli, ['-v', 'abc,def'])
 
     assert result.output == "['abc', 'def']\n"
 
-    result = runner.invoke(cli, ['-v', "abc,def"])
+    result = runner.invoke(cli, ['-v', 'abc,def'])
 
     assert result.output == "['abc', 'def']\n"
 

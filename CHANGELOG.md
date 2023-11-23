@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `UrlParamType` can now be directly imported. It allows users to customize the validation of urls 
+- `UrlParamType` can now be directly imported. It allows users to customize the validation of urls
   passed to their custom CLI.
 
 ### Changed

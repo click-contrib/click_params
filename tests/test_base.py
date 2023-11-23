@@ -134,10 +134,11 @@ class TestListParamType:
         assert 'separator must be a string' == str(exc_info.value)
 
     @pytest.mark.parametrize(
-        'separator', [{}, {'separator': ' '}, {'separator': ';'}]  # default separator should be used i.e ","
+        'separator',
+        [{}, {'separator': ' '}, {'separator': ';'}],  # default separator should be used i.e ","
     )
     def test_should_not_raise_error_when_instantiating_with_a_string(self, separator):
-        expected_separator = separator.get("separator", ",")  # default separator
+        expected_separator = separator.get('separator', ',')  # default separator
         base_list = ListParamType(click.INT, **separator)
         assert base_list._separator == expected_separator
 
@@ -195,8 +196,8 @@ class TestListParamType:
     @pytest.mark.parametrize('param_type', [click.INT, click.FLOAT, click.STRING, FRACTION, COMPLEX])
     def test_should_return_empty_list_with_ignore_empty_string(self, param_type):
         base_list = ListParamType(param_type=param_type, ignore_empty=True)
-        assert base_list.convert("", None, None) == []
+        assert base_list.convert('', None, None) == []
 
     def test_should_return_non_empty_list_without_ignore_empty_string(self):
         base_list = ListParamType(param_type=click.STRING)
-        assert base_list.convert("", None, None) == ['']
+        assert base_list.convert('', None, None) == ['']

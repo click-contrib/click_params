@@ -41,10 +41,8 @@ pytest-mock = "^3.10.0"
 nox = "^2023.4.22"
 
 [tool.poetry.group.lint.dependencies]
-flake8 = "^6.1.0"
 bandit = "^1.6.2"
-isort = "^5.10.1"
-black = "^23.1.0"
+ruff = "^0.1.6"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs-material = "^9.0.0"
@@ -54,15 +52,23 @@ safety = "^2.3.0"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-# addopts = "--cov=click_params --cov-report html --cov-report xml"
+addopts = "--cov=click_params --cov-report html --cov-report xml --cov-report term"
 
-[tool.isort]
-line_length = 120
-profile = "black"
-
-[tool.black]
+[tool.ruff]
 line-length = 120
-skip-string-normalization = true
+
+[tool.ruff.lint]
+extend-select = [
+  "UP",  # pyupgrade
+  "I",   # isort
+  "S",   # flake8-bandit
+  "B",   # flake8-bugbear
+  "C90", # McCabe complexity
+  "RUF"
+]
+
+[tool.ruff.format]
+quote-style = "single"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

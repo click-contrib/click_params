@@ -15,9 +15,8 @@ def lint(session):
     source_code = 'click_params'
     session.install('poetry>=1.0.0,<1.5.0')
     session.run('poetry', 'install', '--only', 'lint')
-    session.run('flake8', source_code)
+    session.run('ruff', 'check', source_code)
     session.run('bandit', '-r', source_code)
-    session.run('black', source_code, 'tests', '--check')
 
 
 @nox.session(python=PYTHON_VERSIONS[-1])

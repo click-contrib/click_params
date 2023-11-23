@@ -1,5 +1,6 @@
 """Network parameter types"""
 import ipaddress
+from typing import Optional
 
 from .base import BaseParamType, ListParamType, RangeParamType
 
@@ -29,12 +30,15 @@ class Ipv4AddressRange(RangeParamType):
     name = 'ipv4 address range'
 
     def __init__(
-        self, minimum: ipaddress.IPv4Address = None, maximum: ipaddress.IPv4Address = None, clamp: bool = False
+        self,
+        minimum: Optional[ipaddress.IPv4Address] = None,
+        maximum: Optional[ipaddress.IPv4Address] = None,
+        clamp: bool = False,
     ):
         super().__init__(Ipv4Address(), minimum, maximum, clamp)
 
     def __repr__(self):
-        return f'IPV4AddressRange({repr(self._minimum)}, {repr(self._maximum)})'
+        return f'IPV4AddressRange({self._minimum!r}, {self._maximum!r})'
 
 
 class Ipv4AddressListParamType(ListParamType):
@@ -55,12 +59,15 @@ class Ipv6AddressRange(RangeParamType):
     name = 'ipv6 address range'
 
     def __init__(
-        self, minimum: ipaddress.IPv6Address = None, maximum: ipaddress.IPv6Address = None, clamp: bool = False
+        self,
+        minimum: Optional[ipaddress.IPv6Address] = None,
+        maximum: Optional[ipaddress.IPv6Address] = None,
+        clamp: bool = False,
     ):
         super().__init__(Ipv6Address(), minimum, maximum, clamp)
 
     def __repr__(self):
-        return f'IPV6AddressRange({repr(self._minimum)}, {repr(self._maximum)})'
+        return f'IPV6AddressRange({self._minimum!r}, {self._maximum!r})'
 
 
 class Ipv6AddressListParamType(ListParamType):

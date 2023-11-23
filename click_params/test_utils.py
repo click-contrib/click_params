@@ -1,3 +1,4 @@
+# ruff: noqa: S101
 """Helper functions to test click commands"""
 from typing import List
 

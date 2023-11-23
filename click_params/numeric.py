@@ -1,6 +1,7 @@
 """Numeric parameter types"""
 from decimal import Decimal, DecimalException
 from fractions import Fraction
+from typing import Optional
 
 import click
 
@@ -17,7 +18,7 @@ class DecimalParamType(BaseParamType):
 class DecimalRange(RangeParamType):
     name = 'decimal range'
 
-    def __init__(self, minimum: Decimal = None, maximum: Decimal = None, clamp: bool = False):
+    def __init__(self, minimum: Decimal | None = None, maximum: Decimal | None = None, clamp: bool = False):
         super().__init__(DECIMAL, minimum, maximum, clamp)
 
 
@@ -38,7 +39,7 @@ class FractionParamType(BaseParamType):
 class FractionRange(RangeParamType):
     name = 'fraction range'
 
-    def __init__(self, minimum: Fraction = None, maximum: Fraction = None, clamp: bool = False):
+    def __init__(self, minimum: Optional[Fraction] = None, maximum: Optional[Fraction] = None, clamp: bool = False):
         super().__init__(FRACTION, minimum, maximum, clamp)
 
 

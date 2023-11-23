@@ -12,7 +12,7 @@ class CustomParamType(click.ParamType):
 
 
 class BaseParamType(CustomParamType):
-    def __init__(self, _type: Any, errors: Union[Error, Tuple[Error]], name: str = None):
+    def __init__(self, _type: Any, errors: Union[Error, Tuple[Error]], name: Optional[str] = None):
         self._type = _type
         self._errors = errors
         self._name = name or self.name
@@ -31,7 +31,7 @@ class BaseParamType(CustomParamType):
 class ValidatorParamType(CustomParamType):
     """This class is intended to inherit by classes using validators functions."""
 
-    def __init__(self, callback: Callable, name: str = None):
+    def __init__(self, callback: Callable, name: Optional[str] = None):
         self._callback = callback
         self._name = name or self.name
         self._error_message = '{value} is not a valid %s' % self._name
@@ -78,11 +78,13 @@ class RangeParamType(CustomParamType):
         parts = self.name.split(' ')
         titles = [part.title() for part in parts]
         new_name = ''.join(titles)
-        return f'{new_name}({repr(self._minimum)}, {repr(self._maximum)})'
+        return f'{new_name}({self._minimum!r}, {self._maximum!r})'
 
 
 class ListParamType(CustomParamType):
-    def __init__(self, param_type: click.ParamType, separator: str = ',', name: str = None, ignore_empty: bool = False):
+    def __init__(
+        self, param_type: click.ParamType, separator: str = ',', name: Optional[str] = None, ignore_empty: bool = False
+    ):
         if not isinstance(separator, str):
             raise TypeError('separator must be a string')
         self._separator = separator
@@ -115,7 +117,7 @@ class ListParamType(CustomParamType):
         if isinstance(value, list):
             return value
 
-        if self._ignore_empty and value == "":
+        if self._ignore_empty and value == '':
             return []
         value = self._strip_separator(value)
         errors, converted_list = self._convert_expression_to_list(value)

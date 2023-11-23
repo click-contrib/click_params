@@ -14,12 +14,12 @@ class JsonParamType(click.ParamType):
 
     def __init__(
         self,
-        cls: Callable = None,
-        object_hook: Callable = None,
-        parse_float: Callable = None,
-        parse_int: Callable = None,
-        parse_constant: Callable = None,
-        object_pairs_hook: Callable = None,
+        cls: Optional[Callable] = None,
+        object_hook: Optional[Callable] = None,
+        parse_float: Optional[Callable] = None,
+        parse_int: Optional[Callable] = None,
+        parse_constant: Optional[Callable] = None,
+        object_pairs_hook: Optional[Callable] = None,
         **kwargs,
     ):
         self._cls = cls
@@ -87,7 +87,7 @@ class UUIDListParamType(ListParamType):
 class DateTimeListParamType(ListParamType):
     name = 'datetime list'
 
-    def __init__(self, separator: str = ',', formats: List[str] = None, ignore_empty: bool = False):
+    def __init__(self, separator: str = ',', formats: Optional[List[str]] = None, ignore_empty: bool = False):
         super().__init__(
             click.DateTime(formats=formats), separator=separator, name='datetimes', ignore_empty=ignore_empty
         )
@@ -117,7 +117,7 @@ class FirstOf(CustomParamType):
 
         self.fail(
             'All possible options exhausted without any successful conversion:\n - '
-            + "\n - ".join(
+            + '\n - '.join(
                 [
                     indent(
                         f"{getattr(f[0], 'name', f[0].__class__.__name__).upper()}:" f' {f[1]}',

@@ -150,9 +150,9 @@ def test_should_print_correct_output_when_giving_correct_option_for_list_types(
 
 
 @pytest.mark.parametrize(
-    "param_type", [DomainListParamType, PublicUrlListParamType, UrlListParamType, EmailListParamType, SlugListParamType]
+    'param_type', [DomainListParamType, PublicUrlListParamType, UrlListParamType, EmailListParamType, SlugListParamType]
 )
 def test_domain_list_param_types_ignore_empty_string(param_type):
     domain_list_type = param_type(ignore_empty=True)
 
-    assert domain_list_type.convert("", None, None) == []
+    assert domain_list_type.convert('', None, None) == []
