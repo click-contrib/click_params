@@ -11,6 +11,7 @@ from .domain import (
     PublicUrlListParamType,
     SlugListParamType,
     UrlListParamType,
+    UrlParamType,
 )
 from .miscellaneous import (  # ChoiceListParamType,
     JSON,
@@ -61,6 +62,7 @@ __all__ = [
     'DOMAIN',
     'PUBLIC_URL',
     'URL',
+    'UrlParamType',
     'EmailParamType',
     'EMAIL',
     'SLUG',
