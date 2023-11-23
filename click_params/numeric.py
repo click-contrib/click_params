@@ -18,7 +18,7 @@ class DecimalParamType(BaseParamType):
 class DecimalRange(RangeParamType):
     name = 'decimal range'
 
-    def __init__(self, minimum: Decimal | None = None, maximum: Decimal | None = None, clamp: bool = False):
+    def __init__(self, minimum: Optional[Decimal] = None, maximum: Optional[Decimal] = None, clamp: bool = False):
         super().__init__(DECIMAL, minimum, maximum, clamp)
 
 

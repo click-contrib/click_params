@@ -1,4 +1,4 @@
 click==8.0.0
-validators==0.18.2
+validators==0.22.0
 deprecated==1.2.14
-mkdocs-material==8.4.0
+mkdocs-material==9.4.10
