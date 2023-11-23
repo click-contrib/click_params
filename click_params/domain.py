@@ -2,6 +2,7 @@
 from functools import partial
 from typing import List
 
+from deprecated import deprecated
 from validators import domain, email, slug, url
 
 from .base import ListParamType, ValidatorParamType
@@ -24,8 +25,26 @@ class DomainListParamType(ListParamType):
 class UrlParamType(ValidatorParamType):
     name = 'url'
 
-    def __init__(self, public: bool = False):
-        super().__init__(callback=partial(url, public=public))
+    def __init__(
+        self,
+        skip_ipv6_addr: bool = False,
+        skip_ipv4_addr: bool = False,
+        may_have_port: bool = False,
+        simple_host: bool = False,
+        rfc_1034: bool = False,
+        rfc_2782: bool = False,
+    ):
+        super().__init__(
+            callback=partial(
+                url,
+                skip_ipv6_addr=skip_ipv6_addr,
+                skip_ipv4_addr=skip_ipv4_addr,
+                may_have_port=may_have_port,
+                simple_host=simple_host,
+                rfc_1034=rfc_1034,
+                rfc_2782=rfc_2782,
+            )
+        )
 
 
 class UrlListParamType(ListParamType):
@@ -35,6 +54,11 @@ class UrlListParamType(ListParamType):
         super().__init__(URL, separator=separator, name='urls', ignore_empty=ignore_empty)
 
 
+@deprecated(
+    version='0.5.0',
+    reason='This class now works in the same way as UrlListParamType. You may want to create your custom type'
+    ' only validating public urls if you want that specific behaviour',
+)
 class PublicUrlListParamType(ListParamType):
     name = 'url list'
 
@@ -45,8 +69,24 @@ class PublicUrlListParamType(ListParamType):
 class EmailParamType(ValidatorParamType):
     name = 'email address'
 
-    def __init__(self, whitelist: List[str] = None):
-        super().__init__(callback=partial(email, whitelist=whitelist))
+    def __init__(
+        self,
+        ipv6_address: bool = False,
+        ipv4_address: bool = False,
+        simple_host: bool = False,
+        rfc_1034: bool = False,
+        rfc_2782: bool = False,
+    ):
+        super().__init__(
+            callback=partial(
+                email,
+                ipv6_address=ipv6_address,
+                ipv4_address=ipv4_address,
+                simple_host=simple_host,
+                rfc_1034=rfc_1034,
+                rfc_2782=rfc_2782,
+            )
+        )
 
 
 class EmailListParamType(ListParamType):
@@ -71,7 +111,7 @@ class SlugListParamType(ListParamType):
 
 
 DOMAIN = DomainParamType()
-PUBLIC_URL = UrlParamType(public=True)
-URL = UrlParamType()  # this type includes private url
+URL = UrlParamType()
+PUBLIC_URL = URL  # Just an alias for backward compatibility
 EMAIL = EmailParamType()
 SLUG = SlugParamType()
