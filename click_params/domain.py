@@ -56,7 +56,7 @@ class UrlListParamType(ListParamType):
 @deprecated(
     version='0.5.0',
     reason='This class now works in the same way as UrlListParamType and will be removed in a future release. '
-           'You may want to create your custom type only validating public urls if you want that specific behaviour',
+    'You may want to create your custom type only validating public urls if you want that specific behaviour',
 )
 class PublicUrlListParamType(ListParamType):
     name = 'url list'
