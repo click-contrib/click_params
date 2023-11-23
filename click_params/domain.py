@@ -1,6 +1,5 @@
 """Domain parameter types."""
 from functools import partial
-from typing import List
 
 from deprecated import deprecated
 from validators import domain, email, slug, url
@@ -56,8 +55,8 @@ class UrlListParamType(ListParamType):
 
 @deprecated(
     version='0.5.0',
-    reason='This class now works in the same way as UrlListParamType. You may want to create your custom type'
-    ' only validating public urls if you want that specific behaviour',
+    reason='This class now works in the same way as UrlListParamType and will be removed in a future release. '
+           'You may want to create your custom type only validating public urls if you want that specific behaviour',
 )
 class PublicUrlListParamType(ListParamType):
     name = 'url list'
