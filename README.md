@@ -6,6 +6,7 @@
 [![Documentation Status](https://readthedocs.org/projects/click_params/badge/?version=latest)](https://click-params.readthedocs.io/en/latest/?badge=latest)
 [![License Apache 2](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/click-contrib/click_params)
+[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://github.com/click-contrib/click_params)
 
 A bunch of useful click parameter types.
 

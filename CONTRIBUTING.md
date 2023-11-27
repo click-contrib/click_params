@@ -29,7 +29,6 @@ To submit feedback, again use the [issue tracker](https://github.com/click-contr
 
 Here are some preferences I have when coding:
 
-- Use single quotes wherever possible. Unfortunately `black` does not allow to enforce this rule.
 - When writing a test function, the name should be as obvious as possible about what we want to test. I prefer the
   formulation "test_should..<expectation>..when..<condition>". I'm not saying it is the best option all the time, but it
   often tends to be more readable.

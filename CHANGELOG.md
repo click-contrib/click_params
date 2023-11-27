@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
-- Upgrade `validators` dependency to 0.22.0 to prevent [CVE-2023-45813](https://nvd.nist.gov/vuln/detail/CVE-2023-45813).
+- Upgraded `validators` dependency to 0.22.0 to prevent [CVE-2023-45813](https://nvd.nist.gov/vuln/detail/CVE-2023-45813).
 
 ## [0.4.1] - 2023-02-19
 
