@@ -13,6 +13,7 @@ CI_ENVIRONMENT = 'GITHUB_ACTIONS' in os.environ
 def lint(session):
     """Performs pep8 and security checks."""
     source_code = 'click_params'
+    session.run('poetry', 'install', '--only', 'lint')
     session.run('ruff', 'check', source_code)
     session.run('ruff', 'format', '.')
     session.run('bandit', '-r', source_code)
